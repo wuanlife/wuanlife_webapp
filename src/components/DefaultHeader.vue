@@ -4,16 +4,14 @@
         <h1>{message}</h1>
         <i>search</i>
     </div>
-    <div class="defaultHeader-tabs">
-        <Menu mode="horizontal" active-name="1">
-            <Menu-item name="1">
-                <p>fuck</p>
-            </Menu-item>
-            <Menu-item name="2">
-                <p>fuck</p>
-            </Menu-item>
-        </Menu>
-    </div> 
+    <ul class="defaultHeader-tabs">
+        <li name="1">
+            <p><i class="iconfont icon-profile"></i>fuck</p>
+        </li>
+        <li name="2">
+            <p>fuck</p>
+        </li>
+    </ul> 
 </div>
 </template>
 
@@ -51,27 +49,22 @@ export default {
 </script>
 
 <style style lang="scss" scoped>
-.defaultHeader-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+#defaultHeader {
+    background: #aaaaaa;
+    .defaultHeader-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-    height: 102px;
-
-    h1 {
-
+        height: 102px;
     }
-    i {
-
-    }
-}
-.defaultHeader-tabs {
-    height: 96px;
-    ul {
+    ul.defaultHeader-tabs {
+        height: 96px;
         display: flex;
         li {
             flex: 1;
         }
-    }
+    }   
 }
+
 </style>
