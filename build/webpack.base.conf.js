@@ -30,12 +30,13 @@ module.exports = {
       '@': resolve('src')
     }
   },
+
   module: {
     rules: [
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: vueLoaderConfig
+        options: vueLoaderConfig,
       },
       {
         test: /iview.src.*?js$/,

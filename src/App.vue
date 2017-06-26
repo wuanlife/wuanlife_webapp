@@ -30,7 +30,7 @@ export default {
     }
   },
   mounted() {
-    
+    util.setREM()
   },
 
 }
