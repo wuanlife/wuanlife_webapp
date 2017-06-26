@@ -1,0 +1,20 @@
+export const SET_INTERVAL = 'SET_INTERVAL'
+export const PRODUCE_FOOD = 'PRODUCE_FOOD'
+export const PRODUCE_FARMER = 'PRODUCE_FARMER'
+export const SET_USER_INFO = 'SET_USER_INFO'
+
+// music part
+export const INITSONG = 'INITSONG';
+export const NEXTSONG ='NEXTSONG';
+export const PREVSONG ='PREVSONG';
+export const PLAYSONG ='PLAYSONG';
+export const PAUSESONG = 'PAUSESONG';
+export const TOGGLEMUSICLIST = 'TOGGLEMUSICLIST'
+export const SETCURRENTTIME = 'SETCURRENTTIME'
+export const SYNCCURRENTTIME = 'SYNCCURRENTTIME'
+export const SETPLAYERDOM = 'SETPLAYERDOM'
+
+export const ADDSONGTOLIST = 'ADDSONGTOLIST'
+export const DELSONG = 'DELSONG'
+
+export const GETLYRIC = 'GETLYRIC'
