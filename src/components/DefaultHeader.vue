@@ -1,15 +1,24 @@
 <template>
 <div id="defaultHeader">
     <div class="defaultHeader-head">
-        <h1>{message}</h1>
-        <i>search</i>
+        <h1>消息</h1>
+        <i class="iconfont icon-search"></i>
     </div>
     <ul class="defaultHeader-tabs">
         <li name="1">
-            <p><i class="iconfont icon-profile"></i>fuck</p>
+            <i class="iconfont icon-home"></i>
         </li>
         <li name="2">
-            <p>fuck</p>
+            <i class="iconfont icon-lightPlanet"></i>
+        </li>
+        <li name="3">
+            <i class="iconfont icon-discovery"></i>
+        </li>
+        <li name="4">
+            <i class="iconfont icon-message"></i>
+        </li>
+        <li name="5">
+            <i class="iconfont icon-me"></i>
         </li>
     </ul> 
 </div>
@@ -49,20 +58,43 @@ export default {
 </script>
 
 <style style lang="scss" scoped>
+@function px2rem($px, $base-font-size: 75px) {
+    @return ($px / $base-font-size) * 1rem;
+}
 #defaultHeader {
-    background: #aaaaaa;
+    background: #5677fc;
     .defaultHeader-head {
         display: flex;
         justify-content: space-between;
         align-items: center;
 
         height: 102px;
+        padding: 0 0.6rem;
+
+        opacity:0.87;
+        font-size:40px;
+        color:#ffffff;
+        text-align:left;
+        h1 {
+            font-size: 40px;
+        }
+        i.iconfont {
+            font-size: 40px;
+        }
     }
     ul.defaultHeader-tabs {
-        height: 96px;
         display: flex;
+        height: 96px;
         li {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
             flex: 1;
+            color: #c0cbfe;
+            i.iconfont {
+                font-size: 40px;
+            }
         }
     }   
 }

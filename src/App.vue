@@ -9,6 +9,7 @@
 
 <script>
 import {mapActions,mapGetters} from 'vuex'//使用状态管理里的mapActions来传递方法，mapGetters来展示数据
+import util from 'util'
 export default {
   name: 'app',
   components:{
@@ -115,11 +116,13 @@ button {
 }    
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: PingFangSC-Medium, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: #f4f7f9;
+  min-height: 100%;
 }
 .divider {
   width: 80%;

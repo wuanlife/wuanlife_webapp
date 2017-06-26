@@ -65,6 +65,13 @@ var getPureObj = function(obj) {
     }
     return newobj
 }
+var setREM = function(obj) {
+    let html = document.documentElement;
+
+    window.rem = window.screen.width / 10 ;
+    html.style.fontSize = window.rem + 'px';
+}
+
 
 export default {
     getBrowserInfo,
@@ -72,4 +79,5 @@ export default {
     secondsToFormat,
     getNearestId,
     getPureObj,
+    setREM,
 }

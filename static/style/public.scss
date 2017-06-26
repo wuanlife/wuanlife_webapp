@@ -4,18 +4,13 @@ $color: #ffffff;
 $bg-color-grey: #e0e1e2;
 $ch-red-color: #db2828;
 
+@function px2rem($px, $base-font-size: 75px) {
+    @return ($px / $base-font-size) * 1rem;
+}
+
 html,body {
     height: 100%;
     width: 100%;
-}
-#app {
-  font-family: 'Noto Sans', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  background-color: #f4f7f9;
-  min-height: 100%;
 }
 
 button {
@@ -24,6 +19,9 @@ button {
   }
 }
 
+i.iconfont {
+  line-height: initial;
+}
 
 
 
