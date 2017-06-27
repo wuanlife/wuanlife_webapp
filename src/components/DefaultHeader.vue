@@ -63,6 +63,12 @@ export default {
 }
 #defaultHeader {
     background: #5677fc;
+    margin-bottom: 12px;
+    box-shadow:
+        0 0 8px 0 rgba(0,0,0,0.12), 
+        0 8px 8px 0 rgba(0,0,0,0.24);
+
+
     .defaultHeader-head {
         display: flex;
         justify-content: space-between;

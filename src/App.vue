@@ -121,7 +121,7 @@ button {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: #f4f7f9;
+  background-color: #d9d9dc;
   min-height: 100%;
 }
 .divider {

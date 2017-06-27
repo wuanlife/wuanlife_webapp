@@ -69,7 +69,7 @@ var setREM = function(obj) {
     let html = document.documentElement;
 
     window.rem = window.screen.width / 10 ;
-    html.style.fontSize = window.rem + 'px';
+    html.style.fontSize = '75px';
 }
 
 

@@ -8,14 +8,6 @@ import Index from '@/views/Index'
 import DefaultHeader from '@/components/DefaultHeader'
 import Books_Category from '@/views/Books_Category'
 
-// Personal
-import Personal from '@/views/Personal'
-import Profile from '@/views/personal/Profile'
-import Settings from '@/views/personal/Settings'
-// My record
-import Mycollection from '@/views/Mycollection'
-import Singles from '@/views/mycollection/Singles'
-import History from '@/views/mycollection/History'
 
 import store from '../vuex/store'
 Vue.use(Router)
@@ -41,61 +33,7 @@ const router = new Router({
     }, { 
       path: '/book/:id', 
       component: Book,
-    }, { 
-      path: '/personal',
-      redirect: '/personal/profile',
-      components: {
-        default: Personal,
-        header: DefaultHeader,
-      },
-      meta: {
-        requireAuth: true,
-      },
-      children: [
-        {
-          path: 'profile',
-          name: 'profile',
-          component: Profile,
-          meta: {
-            requireAuth: true,
-          },
-        },{
-          path: 'settings',
-          name: 'settings',
-          component: Settings,
-          meta: {
-            requireAuth: true,
-          },
-        },
-      ]
-    },{ 
-      path: '/mycollection',
-      redirect: '/mycollection/singles',
-      components: {
-        default: Mycollection,
-        header: DefaultHeader,
-      },
-      meta: {
-        requireAuth: true,
-      },
-      children: [
-        {
-          path: 'singles',
-          name: 'singles',
-          component: Singles,
-          meta: {
-            requireAuth: true,
-          },
-        },{
-          path: 'history',
-          name: 'history',
-          component: History,
-          meta: {
-            requireAuth: true,
-          },
-        },
-      ]
-    }
+    },
   ]
 })
 
