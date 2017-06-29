@@ -1,52 +1,35 @@
 <template>
-  <div class="wuan-cards">
-    <div class="wuan-card">
-      <div class="header">
+  <div class="profile-container">
+    <div>
+      <div class="profile-item" @click="$router.push('login')">
         <img src="">
-        <p>My name is long</p>
-        <p>2017-21-213</p>
-      </div>
-      <div class="body">
-        <div class="title">
-          <p>asdasdasdsad</p>
-        </div>
-        <div class="brief">
-          <p>asdfasdfasdasodfasdf</p>
-        </div>
-        <div class="imgs">
-          <img src="">
-          <img src="">
-        </div>
-      </div>
-      <div class="footer">
-        <button><i class="iconfont icon-talk"></i>999+</button>
-        <button><i class="iconfont icon-good"></i>999+</button>
-        <button><i class="iconfont icon-star"></i>999+</button>
+        <p class="profile-name">未登录</p>
+        <i class="iconfont icon-enter"></i>
       </div>
     </div>
-    <div class="wuan-card">
-      <div class="header">
-        <img src="">
-        <p>My name is long</p>
-        <p>2017-21-213</p>
-      </div>
-      <div class="body">
-        <div class="title">
-          <p>asdasdasdsad</p>
-        </div>
-        <div class="brief">
-          <p>asdfasdfasdasodfasdf</p>
-        </div>
-        <div class="imgs">
-          <img src="">
-          <img src="">
-        </div>
-      </div>
-      <div class="footer">
-        <button><i class="iconfont icon-talk"></i>999+</button>
-        <button><i class="iconfont icon-good"></i>999+</button>
-        <button><i class="iconfont icon-star"></i>999+</button>
-      </div>
+    <div>
+      <ul class="profile-list">
+        <li class="profile-item" @click="$router.push('myinfo')">
+          <i class="iconfont icon-profile"></i>
+          <p>个人资料</p>
+          <i class="iconfont icon-enter"></i>
+        </li>
+        <li class="profile-item" @click="$router.push('changepwd')">
+          <i class="iconfont icon-lock"></i>
+          <p>修改密码</p>
+          <i class="iconfont icon-enter"></i>
+        </li>
+        <li class="profile-item" @click="$router.push('mycollection')">
+          <i class="iconfont icon-star"></i>
+          <p>我的收藏</p>
+          <i class="iconfont icon-enter"></i>
+        </li>
+        <li class="profile-item" @click="$router.push('invitation')">
+          <i class="iconfont icon-inviteFriend"></i>
+          <p>邀请好友</p>
+          <i class="iconfont icon-enter"></i>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -64,89 +47,61 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.wuan-cards {
-  .wuan-card {
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    .header {
+.profile-container {
+  div:not(:first-child) {
+    margin-top: 12px;
+  }
+  & > div {
+    background-color: #fff;
+    div.profile-item {
       display: flex;
       align-items: center;
-      flex: 0 0 60px;
-      padding: 0 40px;
-      margin: 12px 0 6px 0;
+      padding: 32px 40px;
       img {
-        height: 60px;
-        width: 60px;
-        margin-right: 12px;
-        border-radius: 30px;
+        width: 76px;
+        height: 76px;
+        margin-right: 32px;
+        border-radius:100%;
       }
       p {
-        color: #000000;
-        opacity: 0.25;
-        font-size: 24px;
+        opacity:0.87;
+        font-size:28px;
+        color:#000000;
       }
-      p:last-child {
+      i.iconfont.icon-enter {
         margin-left: auto;
-      }
-      
-    }
-    .body {
-      padding: 0 40px;
-      margin: 6px 0 18px 0;
-      .title {
-        p {
-          text-align: left;
-          opacity:0.87;
-          font-size:32px;
-          color:#2f2f2f;
-        }
-      }
-      .brief {
-        p {
-          text-align: left;
-          opacity:0.54;
-          font-size:28px;
-          color:#000000;
-        }
-      }
-      .imgs {
-        text-align: left;
-        img {
-          width:204px;
-          height:204px;
-        }
-        img:not(:first-child) {
-          margin-left: 14px;
-        }
+        font-size: 28px;
       }
     }
-    .footer {
+    li.profile-item {
       display: flex;
-      border-top: 1px solid #c8c8c8;
-      button {
-        flex: 1;
-        height: 33px;
-        border: none;
-        background-color: transparent;
-        padding: 0 66px 0 66px;
-        margin: 13px 0 13px 0;
-        opacity: 0.54;
-
+      align-items: center;
+      padding: 42px 40px 42px 0;
+      margin-left: 40px;
+      p {
+        opacity:0.87;
         font-size:24px;
-        color:#5677fc;
-        i.iconfont {
-          font-size:24px;
-          margin-right: 17px;
-        }
+        color:#000000;
       }
-      button:not(:first-child) {
-        border-left: 1px solid #000000;
+      i.iconfont:not(.icon-enter) {
+        width: 60px;
+        text-align: left;
+        margin-right: 12px;
+        font-size: 28px;
       }
+      i.iconfont.icon-enter {
+        margin-left: auto;
+        font-size: 28px;
+      }
+    }
+    ul.profile-list {
+      li:not(:first-child){
+        border-top: 2px solid #eff2f4;
+      }
+    }
+    i.iconfont {
+      color: #757575;
     }
   }
-  div.wuan-card:not(:first-child) {
-    margin-top: 12px;
-  } 
 }
 </style>

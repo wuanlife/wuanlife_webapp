@@ -3,7 +3,9 @@ import Router from 'vue-router'
 import Login from '@/views/Login'
 import Signup from '@/views/Signup'
 import Index from '@/views/Index'
+
 import DefaultHeader from '@/components/DefaultHeader'
+import SimpleHeader from '@/components/SimpleHeader'
 
 // Main route
 import Myplanet from '@/views/Myplanet'
@@ -58,7 +60,10 @@ const router = new Router({
     }, {
       path: '/login',
       name: 'login',
-      component: Login,
+      components: {
+        default: Login,
+        header: SimpleHeader,
+      }
       //beforeEnter: isLogin,
     }, {
       path: '/signup',
