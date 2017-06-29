@@ -1,24 +1,24 @@
 <template>
 <div id="defaultHeader">
     <div class="defaultHeader-head">
-        <h1>消息</h1>
+        <h1>{{$route.params.title}}</h1>
         <i class="iconfont icon-search"></i>
     </div>
     <ul class="defaultHeader-tabs">
         <li name="1">
-            <i class="iconfont icon-home"></i>
+            <router-link :to="{name:'index', params:{title: '主页'}}"><i class="iconfont icon-home"></i></router-link>
         </li>
         <li name="2">
-            <i class="iconfont icon-lightPlanet"></i>
+            <router-link :to="{name:'myplanet', params:{title: '星球'}}"><i class="iconfont icon-lightPlanet"></i></router-link>
         </li>
         <li name="3">
-            <i class="iconfont icon-discovery"></i>
+            <router-link :to="{name:'discovery', params:{title: '发现'}}"><i class="iconfont icon-discovery"></i></router-link>
         </li>
         <li name="4">
-            <i class="iconfont icon-message"></i>
+            <router-link :to="{name:'message', params:{title: '消息'}}"><i class="iconfont icon-message"></i></router-link>
         </li>
         <li name="5">
-            <i class="iconfont icon-me"></i>
+            <router-link :to="{name:'profile', params:{title: '我的'}}"><i class="iconfont icon-me"></i></router-link>
         </li>
     </ul> 
 </div>
@@ -53,6 +53,7 @@ export default {
     },
     mounted() {
         this.$store.dispatch("loadUserInfo")
+        console.dir(this.$route)
     }
 }
 </script>
@@ -97,7 +98,13 @@ export default {
             align-items: center;
 
             flex: 1;
-            color: #c0cbfe;
+            a {
+                color: #c0cbfe;
+                &.router-link-active {
+                    text-decoration: none;
+                    color: #fff;
+                }
+            }
             i.iconfont {
                 font-size: 40px;
             }

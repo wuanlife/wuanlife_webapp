@@ -2,11 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/views/Login'
 import Signup from '@/views/Signup'
-import Book from '@/views/Book'
-import Books from '@/views/Books'
 import Index from '@/views/Index'
 import DefaultHeader from '@/components/DefaultHeader'
-import Books_Category from '@/views/Books_Category'
+
+// Main route
+import Myplanet from '@/views/Myplanet'
+import Discovery from '@/views/Discovery'
+import Message from '@/views/Message'
+import Profile from '@/views/Profile'
 
 
 import store from '../vuex/store'
@@ -16,8 +19,40 @@ const router = new Router({
   routes: [
     {
       path: '/',
+      redirect: {name: 'index', params:{title: '主页'}},
+    }, {
+      name: 'index',
+      path: '/index',
       components: {
         default: Index,
+        header: DefaultHeader,
+      }
+    }, {
+      name: 'myplanet',
+      path: '/myplanet',
+      components: {
+        default: Myplanet,
+        header: DefaultHeader,
+      }
+    }, {
+      name: 'discovery',
+      path: '/discovery',
+      components: {
+        default: Discovery,
+        header: DefaultHeader,
+      }
+    }, {
+      name: 'message',
+      path: '/message',
+      components: {
+        default: Message,
+        header: DefaultHeader,
+      }
+    }, {
+      name: 'profile',
+      path: '/profile',
+      components: {
+        default: Profile,
         header: DefaultHeader,
       }
     }, {
@@ -30,9 +65,6 @@ const router = new Router({
       name: 'signup',
       component: Signup,
       //beforeEnter: isLogin,
-    }, { 
-      path: '/book/:id', 
-      component: Book,
     },
   ]
 })
