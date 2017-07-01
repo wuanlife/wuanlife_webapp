@@ -55,65 +55,6 @@ fieldset, img { border:0; }
 button, input, select, textarea { font-size:100%; } 
 table { border-collapse:collapse; border-spacing:0; }
 
-button {
-  &:focus {
-    outline: none;
-  }
-  &.loading {
-    position: relative;
-    cursor: default;
-    text-shadow: none !important;
-    color: transparent !important;
-    opacity: 0.8;
-    pointer-events: none;
-    transition: 
-      all 0s linear,
-      opacity 0.1s ease
-    ;
-    &:before {
-      position: absolute;
-      content: '';
-      top: 50%;
-      left: 50%;
-
-      margin: -0.5em 0 0 -0.5em;
-      width: 1em;
-      height: 1em;
-
-      border-radius: 500rem;
-      border: 0.2em solid rgba(255, 255, 255, 0.15);
-    }
-    &:after {
-      position: absolute;
-      content: '';
-      top: 50%;
-      left: 50%;
-
-      margin: -0.5em 0 0 -0.5em;
-      width: 1em;
-      height: 1em;
-
-      animation: button-spin 0.6s linear;
-      animation-iteration-count: infinite;
-
-      border-radius: 500rem;
-
-      border-color: white transparent transparent;
-      border-style: solid;
-      border-width: 0.2em;
-
-      box-shadow: 0px 0px 0px 1px transparent;    
-    }
-  }
-}
-@keyframes button-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}    
 
 #app {
   display: flex;

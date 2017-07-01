@@ -1,53 +1,15 @@
 <template>
-  <div class="wuan-cards">
-    <div class="wuan-card">
-      <div class="header">
-        <img src="">
-        <p>My name is long</p>
-        <p>2017-21-213</p>
-      </div>
-      <div class="body">
-        <div class="title">
-          <p>asdasdasdsad</p>
-        </div>
-        <div class="brief">
-          <p>asdfasdfasdasodfasdf</p>
-        </div>
-        <div class="imgs">
-          <img src="">
-          <img src="">
-        </div>
-      </div>
-      <div class="footer">
-        <button><i class="iconfont icon-talk"></i>999+</button>
-        <button><i class="iconfont icon-good"></i>999+</button>
-        <button><i class="iconfont icon-star"></i>999+</button>
-      </div>
+  <div>
+    <div class="header">
+      <h1 class="title">Refresh & Infinite</h1>
     </div>
-    <div class="wuan-card">
-      <div class="header">
-        <img src="">
-        <p>My name is long</p>
-        <p>2017-21-213</p>
+    <scroller :on-refresh="refresh"
+              :on-infinite="infinite"
+              style="padding-top: 44px;">
+      <div v-for="(item, index) in items" class="row" :class="{'grey-bg': index % 2 == 0}">
+        {{ item }}
       </div>
-      <div class="body">
-        <div class="title">
-          <p>asdasdasdsad</p>
-        </div>
-        <div class="brief">
-          <p>asdfasdfasdasodfasdf</p>
-        </div>
-        <div class="imgs">
-          <img src="">
-          <img src="">
-        </div>
-      </div>
-      <div class="footer">
-        <button><i class="iconfont icon-talk"></i>999+</button>
-        <button><i class="iconfont icon-good"></i>999+</button>
-        <button><i class="iconfont icon-star"></i>999+</button>
-      </div>
-    </div>
+    </scroller>
   </div>
 </template>
 
@@ -56,7 +18,40 @@ export default {
   name: 'hello',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      items: []
+    }
+  },
+  mounted: function () {
+    for (var i = 1; i <= 20; i++) {
+      this.items.push(i + ' - keep walking, be 2 with you.');
+    }
+    this.top = 1;
+    this.bottom = 20;
+  },
+
+  methods: {
+    refresh: function (done) {
+      var self = this
+      setTimeout(function () {
+        var start = self.top - 1
+        for (var i = start; i > start - 10; i--) {
+          self.items.splice(0, 0, i + ' - keep walking, be 2 with you.');
+        }
+        self.top = self.top - 10;
+        done();
+      }, 1500)
+    },
+
+    infinite: function (done) {
+      var self = this
+      setTimeout(function () {
+        var start = self.bottom + 1;
+        for (var i = start; i < start + 10; i++) {
+          self.items.push(i + ' - keep walking, be 2 with you.');
+        }
+        self.bottom = self.bottom + 10;
+        done();
+      }, 1500)
     }
   }
 }

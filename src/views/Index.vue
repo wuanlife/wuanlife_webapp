@@ -48,15 +48,26 @@
         <button><i class="iconfont icon-star"></i>999+</button>
       </div>
     </div>
+    
   </div>
 </template>
 
 <script>
 export default {
   name: 'hello',
+  components:{
+    
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      topStatus: '',
+      items: ['asd','fdf','grw'],
+    }
+  },
+  methods: {
+    infinite: function() {
+      alert('asd');
     }
   }
 }
