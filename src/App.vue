@@ -116,6 +116,8 @@ button {
 }    
 
 #app {
+  display: flex;
+  flex-direction: column;
   font-family: PingFangSC-Medium, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

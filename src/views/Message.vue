@@ -1,51 +1,24 @@
 <template>
   <div class="wuan-cards">
-    <div class="wuan-card">
-      <div class="header">
-        <img src="">
-        <p>My name is long</p>
-        <p>2017-21-213</p>
-      </div>
-      <div class="body">
-        <div class="title">
-          <p>asdasdasdsad</p>
-        </div>
-        <div class="brief">
-          <p>asdfasdfasdasodfasdf</p>
-        </div>
-        <div class="imgs">
-          <img src="">
-          <img src="">
-        </div>
-      </div>
-      <div class="footer">
-        <button><i class="iconfont icon-talk"></i>999+</button>
-        <button><i class="iconfont icon-good"></i>999+</button>
-        <button><i class="iconfont icon-star"></i>999+</button>
+    <div class="wuan-briefcard">
+      <i class="iconfont icon-privatenotice"></i>
+      <div class="content">
+        <h1>asdasdafadsfdsfasodfhafhoasdasdafadsfdsfasodfhafhoihewfhohfoghfolghfoiwhfoeihewfhohfoghfolghfoiwhfoe</h1>
+        <p>asdasdafadsfdsfasodfhafhoasdasdafadsfdsfasodfhafhoihewfhohfoghfolghfoiwhfoeihewfhohfoghfolghfoiwhfoe</p>
       </div>
     </div>
-    <div class="wuan-card">
-      <div class="header">
-        <img src="">
-        <p>My name is long</p>
-        <p>2017-21-213</p>
+    <div class="wuan-briefcard">
+      <i class="iconfont icon-privatenotice"></i>
+      <div class="content">
+        <h1>asdasdafadsfdsfasodfhafhoasdasdafadsfdsfasodfhafhoihewfhohfoghfolghfoiwhfoeihewfhohfoghfolghfoiwhfoe</h1>
+        <p>asdasdafadsfdsfasodfhafhoasdasdafadsfdsfasodfhafhoihewfhohfoghfolghfoiwhfoeihewfhohfoghfolghfoiwhfoe</p>
       </div>
-      <div class="body">
-        <div class="title">
-          <p>asdasdasdsad</p>
-        </div>
-        <div class="brief">
-          <p>asdfasdfasdasodfasdf</p>
-        </div>
-        <div class="imgs">
-          <img src="">
-          <img src="">
-        </div>
-      </div>
-      <div class="footer">
-        <button><i class="iconfont icon-talk"></i>999+</button>
-        <button><i class="iconfont icon-good"></i>999+</button>
-        <button><i class="iconfont icon-star"></i>999+</button>
+    </div>
+    <div class="wuan-briefcard">
+      <i class="iconfont icon-privatenotice"></i>
+      <div class="content">
+        <h1>asdasdafadsfdsfasodfhafhoasdasdafadsfdsfasodfhafhoihewfhohfoghfolghfoiwhfoeihewfhohfoghfolghfoiwhfoe</h1>
+        <p>asdasdafadsfdsfasodfhafhoasdasdafadsfdsfasodfhafhoihewfhohfoghfolghfoiwhfoeihewfhohfoghfolghfoiwhfoe</p>
       </div>
     </div>
   </div>
@@ -65,88 +38,43 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .wuan-cards {
-  .wuan-card {
+  .wuan-briefcard {
     display: flex;
-    flex-direction: column;
-    background: #fff;
-    .header {
-      display: flex;
-      align-items: center;
-      flex: 0 0 60px;
-      padding: 0 40px;
-      margin: 12px 0 6px 0;
-      img {
-        height: 60px;
-        width: 60px;
-        margin-right: 12px;
-        border-radius: 30px;
-      }
-      p {
-        color: #000000;
-        opacity: 0.25;
-        font-size: 24px;
-      }
-      p:last-child {
-        margin-left: auto;
-      }
-      
-    }
-    .body {
-      padding: 0 40px;
-      margin: 6px 0 18px 0;
-      .title {
-        p {
-          text-align: left;
-          opacity:0.87;
-          font-size:32px;
-          color:#2f2f2f;
-        }
-      }
-      .brief {
-        p {
-          text-align: left;
-          opacity:0.54;
-          font-size:28px;
-          color:#000000;
-        }
-      }
-      .imgs {
-        text-align: left;
-        img {
-          width:204px;
-          height:204px;
-        }
-        img:not(:first-child) {
-          margin-left: 14px;
-        }
-      }
-    }
-    .footer {
-      display: flex;
-      border-top: 1px solid #c8c8c8;
-      button {
-        flex: 1;
-        height: 33px;
-        border: none;
-        background-color: transparent;
-        padding: 0 66px 0 66px;
-        margin: 13px 0 13px 0;
-        opacity: 0.54;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 30px;
+    margin: 0 15px;
 
-        font-size:24px;
-        color:#5677fc;
-        i.iconfont {
-          font-size:24px;
-          margin-right: 17px;
+    background:#ffffff;
+    box-shadow:0 0 2px 0 rgba(0,0,0,0.12), 0 2px 2px 0 rgba(0,0,0,0.24);
+    border-radius:4px;
+    height:126px;
+    i.iconfont {
+        color: #5677fc;
+        font-size: 44px;
+        margin-right: 24px;
+    }
+    div.content {
+        flex: 1;
+        min-width: 0;
+        h1 {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size:32px;
+            color:rgba(0,0,0,0.87);
         }
-      }
-      button:not(:first-child) {
-        border-left: 1px solid #000000;
-      }
+        p {
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size:24px;
+            color:rgba(0,0,0,0.54);
+        }
     }
   }
-  div.wuan-card:not(:first-child) {
+  div.wuan-briefcard:not(:first-child) {
     margin-top: 12px;
-  } 
+  }
 }
 </style>

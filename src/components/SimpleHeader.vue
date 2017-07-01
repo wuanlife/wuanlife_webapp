@@ -1,7 +1,7 @@
 <template>
 <div id="simpleHeader">
-    <i class="iconfont icon-goback"></i>
-    <p>{{$route.params.title}}</p>
+    <i class="iconfont icon-goback" @click="$router.go(-1)"></i>
+    <p>登录</p>
 </div>
 </template>
 
@@ -44,54 +44,27 @@ export default {
     @return ($px / $base-font-size) * 1rem;
 }
 #simpleHeader {
+    display: flex;
+    align-items: center;
     height: 102px;
     background: #5677fc;
+    padding: 0 0.6rem;
     margin-bottom: 12px;
     box-shadow:
         0 0 8px 0 rgba(0,0,0,0.12), 
         0 8px 8px 0 rgba(0,0,0,0.24);
 
-
-    .defaultHeader-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        height: 102px;
-        padding: 0 0.6rem;
-
+    i.iconfont {
         opacity:0.87;
         font-size:40px;
         color:#ffffff;
-        text-align:left;
-        h1 {
-            font-size: 40px;
-        }
-        i.iconfont {
-            font-size: 40px;
-        }
+        margin-right: 30px;
     }
-    ul.defaultHeader-tabs {
-        display: flex;
-        height: 96px;
-        li {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            flex: 1;
-            a {
-                color: #c0cbfe;
-                &.router-link-active {
-                    text-decoration: none;
-                    color: #fff;
-                }
-            }
-            i.iconfont {
-                font-size: 40px;
-            }
-        }
-    }   
+    p {
+        opacity:0.87;
+        font-size:40px;
+        color:#ffffff;
+    }
 }
 
 </style>
