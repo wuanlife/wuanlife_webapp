@@ -17,7 +17,7 @@
                 </label>
             </span>
         </section>
-        <button class="wuan-button" :class="{loading : isLoading}" @click="login()">登录</button>
+        <button class="wuan-button" type="button" :class="{loading : isLoading}" @click="login()">登录</button>
         <div class="login-links">
             <router-link :to="'/signup'">signup</router-link>
             <router-link :to="'/reset_pwd'">resetpwd</router-link>
