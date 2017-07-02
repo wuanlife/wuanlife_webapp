@@ -5,8 +5,6 @@ import App from './App'
 import store from './vuex/store'
 import router from './router'
 
-import VueScroller from '@/components/Loadmore'
-Vue.use(VueScroller)
 
 
 Vue.config.productionTip = false

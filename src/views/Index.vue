@@ -1,8 +1,8 @@
 <template>
   <div class="wuan-cards">
-    <scroller :on-refresh="refresh"
-              :on-infinite="infinite"
-              style="padding-top: 44px;">
+    <loadmore @on-pullup='onPullup'
+              @on-pulldown='onPullup'
+              class="page">
       <div v-for="(item, index) in items" class="wuan-card">
         <div class="header">
           <img src="">
@@ -27,16 +27,17 @@
           <button><i class="iconfont icon-star"></i>999+</button>
         </div>
       </div>
-    </scroller>
+    </loadmore>
     
   </div>
 </template>
 
 <script>
+import loadmore from '@/components/Loadmore/pull-to-refresh'
 export default {
   name: 'hello',
   components:{
-    
+    loadmore,
   },
   data () {
     return {
@@ -46,7 +47,7 @@ export default {
     }
   },
   methods: {
-    infinite: function(done) {
+    onPullup: function(done) {
       let self = this
       setTimeout(function () {
         self.items.push('keke')
@@ -143,5 +144,19 @@ export default {
   div.wuan-card:not(:first-child) {
     margin-top: 12px;
   } 
+}
+.page {
+  height: calc(100vh - 210px);
+  position: relative;
+  user-select: none;
+}
+.iScrollVerticalScrollbar {
+  position: absolute;
+  z-index: 9999;
+  width: 2px;
+  bottom: 2px;
+  top: 2px;
+  right: 2px;
+  overflow: hidden;
 }
 </style>
