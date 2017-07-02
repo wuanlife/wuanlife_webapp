@@ -1,16 +1,11 @@
 <template>
-  <div>
-    <div class="header">
-      <h1 class="title">Refresh & Infinite</h1>
+  <scroller :on-refresh="refresh"
+            :on-infinite="infinite"
+            style="padding-top: 44px;">
+    <div v-for="(item, index) in items" class="row" :class="{'grey-bg': index % 2 == 0}">
+      {{ item }}
     </div>
-    <scroller :on-refresh="refresh"
-              :on-infinite="infinite"
-              style="padding-top: 44px;">
-      <div v-for="(item, index) in items" class="row" :class="{'grey-bg': index % 2 == 0}">
-        {{ item }}
-      </div>
-    </scroller>
-  </div>
+  </scroller>
 </template>
 
 <script>

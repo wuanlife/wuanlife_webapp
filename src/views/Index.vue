@@ -1,53 +1,33 @@
 <template>
   <div class="wuan-cards">
-    <div class="wuan-card">
-      <div class="header">
-        <img src="">
-        <p>My name is long</p>
-        <p>2017-21-213</p>
-      </div>
-      <div class="body">
-        <div class="title">
-          <p>asdasdasdsad</p>
-        </div>
-        <div class="brief">
-          <p>asdfasdfasdasodfasdf</p>
-        </div>
-        <div class="imgs">
+    <scroller :on-refresh="refresh"
+              :on-infinite="infinite"
+              style="padding-top: 44px;">
+      <div v-for="(item, index) in items" class="wuan-card">
+        <div class="header">
           <img src="">
-          <img src="">
+          <p>My name is long</p>
+          <p>2017-21-213</p>
+        </div>
+        <div class="body">
+          <div class="title">
+            <p>asdasdasdsad</p>
+          </div>
+          <div class="brief">
+            <p>asdfasdfasdasodfasdf</p>
+          </div>
+          <div class="imgs">
+            <img src="">
+            <img src="">
+          </div>
+        </div>
+        <div class="footer">
+          <button><i class="iconfont icon-talk"></i>999+</button>
+          <button><i class="iconfont icon-good"></i>999+</button>
+          <button><i class="iconfont icon-star"></i>999+</button>
         </div>
       </div>
-      <div class="footer">
-        <button><i class="iconfont icon-talk"></i>999+</button>
-        <button><i class="iconfont icon-good"></i>999+</button>
-        <button><i class="iconfont icon-star"></i>999+</button>
-      </div>
-    </div>
-    <div class="wuan-card">
-      <div class="header">
-        <img src="">
-        <p>My name is long</p>
-        <p>2017-21-213</p>
-      </div>
-      <div class="body">
-        <div class="title">
-          <p>asdasdasdsad</p>
-        </div>
-        <div class="brief">
-          <p>asdfasdfasdasodfasdf</p>
-        </div>
-        <div class="imgs">
-          <img src="">
-          <img src="">
-        </div>
-      </div>
-      <div class="footer">
-        <button><i class="iconfont icon-talk"></i>999+</button>
-        <button><i class="iconfont icon-good"></i>999+</button>
-        <button><i class="iconfont icon-star"></i>999+</button>
-      </div>
-    </div>
+    </scroller>
     
   </div>
 </template>
@@ -66,8 +46,12 @@ export default {
     }
   },
   methods: {
-    infinite: function() {
-      alert('asd');
+    infinite: function(done) {
+      let self = this
+      setTimeout(function () {
+        self.items.push('keke')
+        done()
+      }, 1500)
     }
   }
 }
