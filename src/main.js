@@ -8,9 +8,6 @@ import router from './router'
 import VueScroller from '@/components/Loadmore'
 Vue.use(VueScroller)
 
-var VueTouch = require('vue-touch')
-
-Vue.use(VueTouch, {name: 'v-touch'})
 
 Vue.config.productionTip = false
 
