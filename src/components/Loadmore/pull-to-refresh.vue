@@ -87,6 +87,7 @@ export default {
     },
 
     _onTouchMove () {
+      console.log('keke')
       if(this.refreshStep==STATE_PULL_LOADING)
         return;
 

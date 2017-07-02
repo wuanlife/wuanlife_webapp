@@ -43,7 +43,7 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       topStatus: '',
-      items: ['asd','fdf','grw'],
+      items: ['asd'],
     }
   },
   methods: {
