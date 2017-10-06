@@ -1,8 +1,9 @@
 import axios from 'axios'
 import qs from 'qs'
 import util from '../util'
+import store from '../vuex/store'
 
-let Interface = 'http://lw-ezio.com/hjbook_api'
+let Interface = 'http://47.88.58.119:800/'
 /*
 if(!DEVELOPMENT){
     Interface = 'http://lw-ezio.com/hjbook_api'
@@ -18,6 +19,9 @@ axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 axios.interceptors.request.use((config) => {
     if(config.method === 'post'){
         config.headers['Content-Type'] = config.headers.post['Content-Type'];
+    }
+    if (store.state.token !== '') {
+      config.headers['Access-Token'] = store.state.token;
     }
     return config;
 }, (error) => {
@@ -102,11 +106,18 @@ export default {
     Signup(params){
         return fetch('/users', params, 'post')
     },
-    getLyrics(musicid) {
-        return fetch('/musics/${musicid}/lyrics')
+    getIndexPost(params) {
+      return fetch('/posts', params, 'get')
     },
-    getLyrics_url(lyrics_url) {
-        return fetch(lyrics_url)
+    toCollection(Id, post_id) {
+      const data = {
+        post_id: post_id
+      }
+      return fetch({
+        url: `/users/${Id}/collections`,
+        method: 'put',
+        data: data
+      })
     }
 }
 

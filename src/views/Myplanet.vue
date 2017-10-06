@@ -1,27 +1,37 @@
 <template>
-  <scroller :on-refresh="refresh"
-            :on-infinite="infinite"
-            style="padding-top: 44px;">
-    <div v-for="(item, index) in items" class="row" :class="{'grey-bg': index % 2 == 0}">
-      {{ item }}
+    <div class="Myplanet">
+      <div v-for="(item, index) in items" class="Myplanet_planet" v-if="index > n ? false : true" @click="$router.push({path: `/joinplanet/${item.id}`})">
+      <img :src="item.image_url"/>
+      <p>{{ item.name }}</p>
     </div>
-  </scroller>
+    <div class="Myplanet_planet" @click="$router.push({path: '/allplanet', query: {title: '全部星球'}})">
+      <div><i class="iconfont icon-allPlanet"></i></div>
+      <p>全部星球</p>
+    </div>
+    <div class="Myplanet_planet" @click="$router.push({path: '/creatplanet', query: {title: '创建星球'}})">
+      <div><i class="iconfont icon-cross"></i></div>
+      <p>创建星球</p>
+    </div>
+    </div>
 </template>
 
 <script>
+import { groupsList } from '../fetch/groups'
 export default {
-  name: 'hello',
+  name: 'myplanet',
   data () {
     return {
-      items: []
+      items: [],
+      n: 3,
     }
   },
   mounted: function () {
-    for (var i = 1; i <= 20; i++) {
-      this.items.push(i + ' - keep walking, be 2 with you.');
-    }
-    this.top = 1;
-    this.bottom = 20;
+    let self = this;
+    groupsList(0, 20).then(response => {
+      this.items = response.data;
+    }).catch(error => {
+      this.$Message.error(error)
+    })
   },
 
   methods: {
@@ -54,89 +64,43 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.wuan-cards {
-  .wuan-card {
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    .header {
+div.Myplanet{
+  text-align: left;
+  .Myplanet_planet{
+    display: inline-block;
+    width: 32.7%;
+    text-align: center;
+    > img{
+      width: 50px;
+      height: 50px;
+      border-radius: 100%;
+      margin-bottom: 8px;
+    }
+    > div{
+      width: 50px;
+      margin: 0 auto;
+      height: 50px;
+      border-radius: 100%;
+      margin-bottom: 8px;
+      background-color: rgba(86,119,252,0.87);
       display: flex;
+      justify-content: center;
       align-items: center;
-      flex: 0 0 60px;
-      padding: 0 40px;
-      margin: 12px 0 6px 0;
-      img {
-        height: 60px;
-        width: 60px;
-        margin-right: 12px;
-        border-radius: 30px;
-      }
-      p {
-        color: #000000;
-        opacity: 0.25;
-        font-size: 24px;
-      }
-      p:last-child {
-        margin-left: auto;
-      }
-      
-    }
-    .body {
-      padding: 0 40px;
-      margin: 6px 0 18px 0;
-      .title {
-        p {
-          text-align: left;
-          opacity:0.87;
-          font-size:32px;
-          color:#2f2f2f;
-        }
-      }
-      .brief {
-        p {
-          text-align: left;
-          opacity:0.54;
-          font-size:28px;
-          color:#000000;
-        }
-      }
-      .imgs {
-        text-align: left;
-        img {
-          width:204px;
-          height:204px;
-        }
-        img:not(:first-child) {
-          margin-left: 14px;
-        }
+      i{
+        font-size: 20px;
+        color: white;
       }
     }
-    .footer {
-      display: flex;
-      border-top: 1px solid #c8c8c8;
-      button {
-        flex: 1;
-        height: 33px;
-        border: none;
-        background-color: transparent;
-        padding: 0 66px 0 66px;
-        margin: 13px 0 13px 0;
-        opacity: 0.54;
-
-        font-size:24px;
-        color:#5677fc;
-        i.iconfont {
-          font-size:24px;
-          margin-right: 17px;
-        }
-      }
-      button:not(:first-child) {
-        border-left: 1px solid #000000;
-      }
+    > p{
+      font-size: 12px;
+      color: rgba(41,41,41,0.87);
+      margin-bottom: 24px;
+      width: 100%;
+      text-align: center;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
-  div.wuan-card:not(:first-child) {
-    margin-top: 12px;
-  } 
 }
 </style>

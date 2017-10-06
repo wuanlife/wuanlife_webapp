@@ -65,7 +65,7 @@ table { border-collapse:collapse; border-spacing:0; }
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: #d9d9dc;
+  background-color: #fff;
   min-height: 100%;
 }
 .divider {

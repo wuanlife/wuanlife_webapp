@@ -3,56 +3,119 @@
     <loadmore @on-pullup='onPullup'
               @on-pulldown='onPullup'
               class="page">
-      <div v-for="(item, index) in items" class="wuan-card">
+      <div>
+        <div></div>
+        <div v-for="(item, index) in IndexContentList" class="wuan-card">
         <div class="header">
-          <img src="">
-          <p>My name is long</p>
-          <p>2017-21-213</p>
+          <div>
+            <img :src="item.author.avatar_url">
+            <p>{{ item.author.name }}</p>
+          </div>
+          <p>{{ item.create_time }}</p>
         </div>
         <div class="body">
           <div class="title">
-            <p>asdasdasdsad</p>
+            <p @click="$router.push({path: `/postcontent/${item.id}`, query: {title: '主页'}})">{{ item.title }}</p>
           </div>
           <div class="brief">
-            <p>asdfasdfasdasodfasdf</p>
+            <p v-html="item.content"></p>
           </div>
           <div class="imgs">
-            <img src="">
-            <img src="">
+            <img v-for="imgs in item.image_url" :src="imgs">
           </div>
         </div>
         <div class="footer">
-          <button><i class="iconfont icon-talk"></i>999+</button>
-          <button><i class="iconfont icon-good"></i>999+</button>
-          <button><i class="iconfont icon-star"></i>999+</button>
+          <button :class="{clicked: item.replied}" @click="$router.push({path: `/postcontent/${item.id}`})"><i class="iconfont icon-talk"></i>{{ item.replied_num }}</button>
+          <button :class="{clicked: item.approved}" @click="onApproval(item.id, index)"><i class="iconfont icon-good"></i>{{ item.approved_num }}</button>
+          <button :class="{clicked: item.collected}" @click="onCollection(item.id, index)"><i class="iconfont icon-star"></i>{{ item.collected_num }}</button>
         </div>
       </div>
+      </div>
     </loadmore>
-    
   </div>
 </template>
 
 <script>
 import loadmore from '@/components/Loadmore/pull-to-refresh'
+import { toApproval, toCollection, indexPosts } from '../fetch/posts'
+import store from '../vuex/store'
 export default {
-  name: 'hello',
+  name: 'index',
   components:{
     loadmore,
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       topStatus: '',
-      items: ['asd'],
+      IndexContentList: [],
+      i: 0,
     }
   },
   methods: {
     onPullup: function(done) {
       let self = this
+      self.i += 1 
       setTimeout(function () {
-        self.items.push('keke')
+        indexPosts({
+          offset: 20 * self.i,
+          limit: 20
+        }).then(function (response) {
+          self.IndexContentList = self.IndexContentList.concat(response.data)
+        })
         done()
       }, 1500)
+    },
+    onApproval: function(value, index) {
+      let self = this;
+      toApproval(value).then(function (response) {
+        console.log("点赞成功：" + response.success);
+        self.IndexContentList[index].approved_num += self.IndexContentList[index].approved ? -1 : 1
+        self.IndexContentList[index].approved = !self.IndexContentList[index].approved
+      }).catch(function (error) {
+        console.log('Error: ' + error);
+        this.$Message.error('出现错误　'+error);
+      })
+    },
+    onCollection: function(post_id, index) {
+      let self = this;
+      let Id = JSON.parse(localStorage.getItem("user")).id || store.state.userInfo.id
+      const params = {
+        id: Id,
+        post_id: post_id
+      }
+      toCollection(params).then(function (response) {
+        console.log("收藏成功：　"+response.success);
+        self.IndexContentList[index].collected_num += self.IndexContentList[index].collected ? -1 : 1
+        self.IndexContentList[index].collected = !self.IndexContentList[index].collected
+      }).catch(error => {
+        console.log(error)
+        this.$Message.error('出现错误　'+error)
+      })
+    }
+  },
+  mounted() {
+    var self = this;
+    let IndexContentListFirst = function () {
+      firstCard = document.getElementsByClassName("wuan-card")[0];
+      firstCard.style.marginBottom = "6px solid #d9d9dc";
+    };
+    indexPosts({
+      offset: 0,
+      limit: 20
+    }).then(function (response) {
+      console.log("Index-Ask-Success" + response.data);
+      response.data.forEach(function (el) {
+        el.create_time = el.create_time.slice(0, 10) + ' ' + el.create_time.slice(11, 16)
+      })
+      self.IndexContentList = response.data;
+    }).catch(function (error) {
+      console.log("Index-err： " + error);
+      this.$Message.error(error)
+    })
+  },
+  computed: {
+    userId () {
+      return store.state.userInfo.id
     }
   }
 }
@@ -61,102 +124,129 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .wuan-cards {
-  .wuan-card {
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    .header {
-      display: flex;
-      align-items: center;
-      flex: 0 0 60px;
-      padding: 0 40px;
-      margin: 12px 0 6px 0;
-      img {
-        height: 60px;
-        width: 60px;
-        margin-right: 12px;
-        border-radius: 30px;
+  width: 100%;
+  box-sizing: border-box;
+  .page{
+    height: calc(100vh - 105px);
+    position: relative;
+    user-select: none;
+    .wuan-card {
+      width: 100%;
+      box-sizing: border-box;
+      border-bottom: 6px solid #d9d9dc;
+      > .header, > .body, > .footer{
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0 20px;
       }
-      p {
-        color: #000000;
-        opacity: 0.25;
-        font-size: 24px;
-      }
-      p:last-child {
-        margin-left: auto;
-      }
-      
-    }
-    .body {
-      padding: 0 40px;
-      margin: 6px 0 18px 0;
-      .title {
-        p {
-          text-align: left;
-          opacity:0.87;
-          font-size:32px;
-          color:#2f2f2f;
-        }
-      }
-      .brief {
-        p {
-          text-align: left;
-          opacity:0.54;
-          font-size:28px;
-          color:#000000;
-        }
-      }
-      .imgs {
+      > .header{
         text-align: left;
-        img {
-          width:204px;
-          height:204px;
+        display: flex;
+        margin-top: 9px;
+        margin-bottom: 6px;
+        align-items: center;
+        justify-content: space-between;
+        img{
+          width: 30px;
+          height: 30px;
+          border-radius: 100%;
         }
-        img:not(:first-child) {
-          margin-left: 14px;
+        div > p{
+          font-size: 12px;
+          line-height: 16.5px;
+          color: rgba(0,0,0,0.26);
+          display: inline-block;
+          padding-left: 6px;
         }
-      }
-    }
-    .footer {
-      display: flex;
-      border-top: 1px solid #c8c8c8;
-      button {
-        flex: 1;
-        height: 33px;
-        border: none;
-        background-color: transparent;
-        padding: 0 66px 0 66px;
-        margin: 13px 0 13px 0;
-        opacity: 0.54;
-
-        font-size:24px;
-        color:#5677fc;
-        i.iconfont {
-          font-size:24px;
-          margin-right: 17px;
+        > p{
+          font-size: 12px;
+          line-height: 16.5px;
+          color: rgba(0,0,0,0.26);
+          display: inline-block;
         }
       }
-      button:not(:first-child) {
-        border-left: 1px solid #000000;
+      > .body{
+        .title{
+          margin-bottom: 3px;
+          p{
+            width: 100%;
+            font-size: 16px;
+            line-height: 22.5px;
+            color: #2f2f2f;
+            text-align: left;
+            opacity: 0.87;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+        }
+        .brief{
+          margin-bottom: 9px;
+          p{
+            width: 100%;
+            opacity: 0.54;
+            font-size: 14px;
+            color: #000000;
+            letter-spacing: 0;
+            text-align: left;
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+          }
+        }
+        .imgs{
+          width: 100%;
+          text-align: left;
+          margin-bottom: 6px;
+          img{
+            width: 102px;
+            height: 102px;
+            margin-right: 7px;
+          }
+        }
+      }
+      > .footer{
+        border-top: 0.5px solid rgba(0,0,0,0.26);
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        button{
+          width: 33.3%;
+          border: none;
+          opacity: 0.26;
+          box-sizing: border-box;
+          background-color: #FFFFFF;
+          border-right: 1px solid rgba(0,0,0,0.26);
+          i{
+            margin-right: 9px;
+          }
+          i.clicked{
+            opacity: 0.54;
+            color: #5677FC;
+          }
+        }
+        button.clicked{
+          opacity: 0.54;
+          color: #5677FC;
+        }
+        button:last-child{
+          border: none;
+        }
       }
     }
   }
-  div.wuan-card:not(:first-child) {
-    margin-top: 12px;
-  } 
-}
-.page {
-  height: calc(100vh - 210px);
-  position: relative;
-  user-select: none;
 }
 .iScrollVerticalScrollbar {
   position: absolute;
   z-index: 9999;
-  width: 2px;
-  bottom: 2px;
-  top: 2px;
-  right: 2px;
+  width: 1px;
+  bottom: 1px;
+  top: 1px;
+  right: 1px;
   overflow: hidden;
 }
 </style>
