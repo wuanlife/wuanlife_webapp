@@ -21,7 +21,7 @@ var Scroll = function(selector, opts){
         listenX: false, 
         interactiveScrollbars:true,//滚动条可以拖动  
         shrinkScrollbars:'scale',// 当滚动边界之外的滚动条是由少量的收缩。'clip' or 'scale'.  
-        click: true ,// 允许点击事件  
+        click: false ,// 允许点击事件  
         momentum:true,// 允许有惯性滑动  
 		preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|IMG)$/ }
 	};

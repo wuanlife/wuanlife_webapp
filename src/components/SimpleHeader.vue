@@ -1,7 +1,7 @@
 <template>
 <div id="simpleHeader">
     <i class="iconfont icon-goback" @click="$router.go(-1)"></i>
-    <p>登录</p>
+    <p>{{ $route.query.title }}</p>
 </div>
 </template>
 
@@ -46,24 +46,23 @@ export default {
 #simpleHeader {
     display: flex;
     align-items: center;
-    height: 102px;
+    height: 51px;
     background: #5677fc;
-    padding: 0 0.6rem;
-    margin-bottom: 12px;
+    padding: 0 0.3rem;
+    margin-bottom: 6px;
     box-shadow:
-        0 0 8px 0 rgba(0,0,0,0.12), 
-        0 8px 8px 0 rgba(0,0,0,0.24);
+        0 0 4px 0 rgba(0,0,0,0.12), 
+        0 4px 4px 0 rgba(0,0,0,0.24);
 
     i.iconfont {
         opacity:0.87;
-        font-size:40px;
+        font-size:20px;
         color:#ffffff;
-        margin-right: 30px;
+        margin-right: 15px;
     }
     p {
-        opacity:0.87;
-        font-size:40px;
-        color:#ffffff;
+        font-size:20px;
+        color: rgba(255,255,255,0.87);
     }
 }
 

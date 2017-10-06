@@ -1,24 +1,24 @@
 <template>
 <div id="defaultHeader">
     <div class="defaultHeader-head">
-        <h1>{{$route.params.title}}</h1>
-        <i class="iconfont icon-search"></i>
+        <h1>{{$route.query.title}}</h1>
+        <i class="iconfont icon-search" @click="$router.push('search')"></i>
     </div>
     <ul class="defaultHeader-tabs">
         <li name="1">
-            <router-link :to="{name:'index', params:{title: '主页'}}"><i class="iconfont icon-home"></i></router-link>
+            <router-link :to="{name:'index', query:{title: '主页'}}"><i class="iconfont icon-home"></i></router-link>
         </li>
         <li name="2">
-            <router-link :to="{name:'myplanet', params:{title: '星球'}}"><i class="iconfont icon-lightPlanet"></i></router-link>
+            <router-link :to="{name:'myplanet', query:{title: '星球'}}"><i class="iconfont icon-lightPlanet"></i></router-link>
         </li>
-        <li name="3">
+        <!--<li name="3">
             <router-link :to="{name:'discovery', params:{title: '发现'}}"><i class="iconfont icon-discovery"></i></router-link>
+        </li>-->
+        <li name="3">
+            <router-link :to="{name:'message', query:{title: '消息'}}"><i class="iconfont icon-message"></i></router-link>
         </li>
         <li name="4">
-            <router-link :to="{name:'message', params:{title: '消息'}}"><i class="iconfont icon-message"></i></router-link>
-        </li>
-        <li name="5">
-            <router-link :to="{name:'profile', params:{title: '我的'}}"><i class="iconfont icon-me"></i></router-link>
+            <router-link :to="{name:'profile', query:{title: '我的'}}"><i class="iconfont icon-me"></i></router-link>
         </li>
     </ul> 
 </div>
@@ -64,34 +64,31 @@ export default {
 }
 #defaultHeader {
     background: #5677fc;
-    margin-bottom: 12px;
-    box-shadow:
-        0 0 8px 0 rgba(0,0,0,0.12), 
-        0 8px 8px 0 rgba(0,0,0,0.24);
-
+    margin-bottom: 6px;
 
     .defaultHeader-head {
         display: flex;
         justify-content: space-between;
         align-items: center;
 
-        height: 102px;
-        padding: 0 0.6rem;
+        height: 51px;
+        padding: 0 0.3rem;
 
         opacity:0.87;
-        font-size:40px;
+        font-size:20px;
         color:#ffffff;
         text-align:left;
         h1 {
-            font-size: 40px;
+            font-size: 20px;
         }
         i.iconfont {
-            font-size: 40px;
+            font-size: 20px;
         }
     }
     ul.defaultHeader-tabs {
         display: flex;
-        height: 96px;
+        height: 48px;
+        box-shadow: 0 0 4px 0 rgba(0,0,0,0.12), 0 4px 4px 0 rgba(0,0,0,0.24);
         li {
             display: flex;
             justify-content: center;
@@ -106,7 +103,7 @@ export default {
                 }
             }
             i.iconfont {
-                font-size: 40px;
+                font-size: 20px;
             }
         }
     }   
