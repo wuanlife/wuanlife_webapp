@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { groupsList } from '../fetch/groups'
+import { groupsList, searchGroup } from '../fetch/groups'
 export default {
   name: 'myplanet',
   data () {

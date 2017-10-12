@@ -60,6 +60,9 @@ export default {
           offset: 20 * self.i,
           limit: 20
         }).then(function (response) {
+          response.data.forEach(function (el) {
+            el.create_time = el.create_time.slice(0, 10) + ' ' + el.create_time.slice(11, 16)
+          })
           self.IndexContentList = self.IndexContentList.concat(response.data)
         })
         done()

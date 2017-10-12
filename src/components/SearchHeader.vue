@@ -19,6 +19,9 @@ export default {
       search () {
         store.dispatch("Search", {serText: this.searchtext})
       }
+    },
+    mounted () {
+      this.searchtext = store.state.searchContent
     }
 }
 </script>
@@ -31,7 +34,9 @@ export default {
     display: flex;
     align-items: center;
     height: 64px;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
     background: #5677fc;
     padding: 0 0.3rem;
     margin-bottom: 6px;
