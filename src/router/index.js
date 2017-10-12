@@ -69,7 +69,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      redirect: {name: 'index', params:{title: '主页'}},
+      redirect: {name: 'index', query:{title: '主页'}},
     }, {
       name: 'index',
       path: '/index',
@@ -252,8 +252,11 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.path == '/message' || to.path == '/myinfo' || to.path == '/changepwd' || to.path == '/mycollection' || to.path == '/invitation' || to.path == '/creatplanet' || to.path == '/postpost') {  // 判断该路由是否需要登录权限
+    console.log("测试1")
+    if (to.path === '/message' || to.path === '/myinfo' || to.path === '/changepwd' || to.path === '/mycollection' || to.path === '/invitation' || to.path === '/creatplanet' || to.path === '/postpost') {  // 判断该路由是否需要登录权限
+        console.log("测试2")
         if (JSON.parse(localStorage.getItem("user")) == null && store.state.token == '') {  // 通过vuex state获取当前的token是否存在
+            console.log("测试3")
             next({
               path: '/login',
               query: {title: '返回'}

@@ -51,8 +51,11 @@ const store = new Vuex.Store({
   },
   actions: {
     Login ({ commit }, params) {
+      console.log('运行到这里')
       return new Promise((resolve, reject) => {
+        console.log('运行到这里')
         login(params).then(response => {
+          console.log('运行到这里')
           commit('SET_TOKEN', response['Access-Token'])
           commit('SET_USERINFO', response)
           localStorage.setItem("user",JSON.stringify(response))

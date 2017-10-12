@@ -8,7 +8,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 //自定义axios实例
 var axiosWuan = axios.create({
   baseURL: 'http://47.88.58.119:800/',
-  timeout: 2000,
+  timeout: 5000,
 })
 //request拦截器
 axiosWuan.interceptors.request.use(function (config) {

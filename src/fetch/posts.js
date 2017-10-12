@@ -155,6 +155,6 @@ export function indexPosts (params) {
   return fetchWuan({
     url: `/posts`,
     method: 'get',
-    data: data
+    params: data
   })
 }

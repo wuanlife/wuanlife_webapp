@@ -133,8 +133,10 @@ export default {
         floor: this.comments.reply_count + 2
       }
       postReply(params).then(response => {
+        response.create_time = response.create_time.slice(0, 10) + ' ' + response.create_time.slice(11, 16)
         self.comments.reply.push(response)
         this.$Message.success('回复成功')
+        this.comment = ''
       }).catch(error => {
         console.log("错误　帖子回复：　"+error)
         this.$Message.error('回复失败')

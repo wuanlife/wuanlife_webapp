@@ -8,7 +8,7 @@
         <span>{{ item.name }}</span>
       </div>
     </div>
-    <footer>
+    <footer @click="$router.push({path: `/allplanet`, query: {title: '相关星球', serachText: $store.state.searchContent}})">
       <span>查看更多相关星球</span>
       <i class="iconfont icon-enter"></i>
     </footer>
@@ -17,7 +17,7 @@
     <header>帖子</header>
     <div class="SearchCardsList">
       <div class="SearchCard" v-for="item in postList">
-        <header>{{ item.title }}</header>
+        <header @click="$router.push({path: `/postcontent/${item.id}`, query: {title: '搜索'}})">{{ item.title }}</header>
         <p>
           {{ item.content }}
         </p>
@@ -80,6 +80,33 @@ export default {
         this.$Message.error('出现错误'+error)
       })
     }
+  },
+  mounted () {
+    if (store.state.searchContent != '') {
+      searchGroup({
+        limit: 20,
+        offset: 0,
+        name: this.getsearch
+      }).then(response => {
+        this.groupList = response.data
+      }).catch(error => {
+        console.log(error)
+        this.$Message.error('出现错误'+error)
+      })
+      searchPost({
+        limit: 20,
+        offset: 0,
+        name: this.getsearch
+      }).then(response => {
+        response.data.forEach(function (el) {
+          el.create_time = el.create_time.slice(0, 10) + ' ' + el.create_time.slice(11, 16)
+        })
+        this.postList = response.data
+      }).catch(error => {
+        console.log(error)
+        this.$Message.error('出现错误'+error)
+      })
+    }
   }
 }
 </script>
@@ -87,6 +114,7 @@ export default {
 <style lang="scss" scoped>
 .Search{
   width: 100%;
+  padding-top: 64px;
   box-sizing: border-box;
   .SearchPlanets, .SearchCards{
     width: 100%;

@@ -18,7 +18,7 @@
 
 <script>
 import loadmore from '@/components/Loadmore/pull-to-refresh'
-import { groupsList } from '../fetch/groups'
+import { groupsList, searchGroup } from '../fetch/groups'
 export default {
   name: 'allplanet',
   components:{
@@ -32,23 +32,48 @@ export default {
   },
   mounted () {
     let self = this;
-    groupsList(0, 20).then(response => {
-      this.items = response.data;
-    }).catch(error => {
-      console.log(error)
-      this.$Message.error(error)
-    })
+    console.log(this.$route.query)
+    if (this.$route.query.serachText) {
+      searchGroup({
+        limit: 20,
+        offset: 0,
+        name: this.$route.query.serachText
+      }).then(response => {
+        this.items = response.data
+      }).catch(error => {
+        console.log(error)
+        this.$Message.error('出现错误'+error)
+      })
+    } else {
+      groupsList(0, 20).then(response => {
+        this.items = response.data;
+      }).catch(error => {
+        console.log(error)
+        this.$Message.error(error)
+      })
+    }
   },
   methods: {
     onPullup: function (done) {
       let self = this
       self.i += 1
-      setTimeout(function () {
-        groupsList(20 * self.i, 20).then(function (response) {
-          self.items = self.items.concat(response.data)
-        })
-        done()
-      }, 1500)
+      if (this.$route.query.serachText) {
+        setTimeout(function () {
+          searchGroup({
+            limit: 20 * self.i,
+            offset: 0,
+            name: this.$route.query.serachText
+          })
+          done()
+        }, 1500)
+      } else {
+        setTimeout(function () {
+          groupsList(20 * self.i, 20).then(function (response) {
+            self.items = self.items.concat(response.data)
+          })
+          done()
+        }, 1500)
+      }
     }
   }
 }

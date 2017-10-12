@@ -7,10 +7,10 @@
       <span v-if="LoginPassWord">密码 {{password_notice}}</span>
       <span v-else></span>
       <input type="password" placeholder="密码" v-model="password" @click="LoginTitle(2)" />
-      <button @click="login()">登录</button>
+      <span class="form-btn" @click.stop="login">登录</span>
       <div>
-        <button @click="$router.push({path: '/signup', query: {title: '注册帐号'}})">注册帐号</button>
-        <button @click="$router.push({path: '/getPassword', query: {title: '找回密码'}})">找回密码</button>
+        <span @click.stop="$router.push({path: '/signup', query: {title: '注册帐号'}})">注册帐号</span>
+        <span @click.stop="$router.push({path: '/getPassword', query: {title: '找回密码'}})">找回密码</span>
       </div>
     </form>
 </div>
@@ -52,14 +52,16 @@ export default {
         //登录逻辑
         login(){
             if(this.email!='' && this.password!=''){
-                this.toLogin();
+                console.log('运行到这里')
+                this.toLogin()
             } else {
                 this.$Message.warning('请填写表单！')
             }
         },
         //登录请求
         toLogin(){
-            let self = this;
+            console.log('运行到这里')
+            let self = this
             store.dispatch('Login', {
               mail: this.email,
               password: this.password
@@ -150,29 +152,33 @@ export default {
         border-bottom: 2px solid rgba(86,119,252,0.87);
       }
     }
-    > button{
+    > .form-btn{
+      display: block;
+      text-align: center;
       border: none;
       font-size: 16px;
-      line-height: 22.5px;
+      line-height: 44px;
       color: rgba(255,255,255,0.87);
       background: #5677FC;
       border-radius: 4px;
       width: 100%;
       height: 44px;
       margin-top: 24px;
-      margin-bottom: 22px;
+      margin-bottom: 2px;
       box-shadow: 0 0 1px 0 rgba(0,0,0,0.12), 0 1px 1px 0 rgba(0,0,0,0.24);
     }
     > div{
       width: 100%;
       display: flex;
       justify-content: space-around;
-      > button{
+      > span{
         font-size: 12px;
         line-height: 16.5px;
         color: rgba(86,119,252,0.87);
         background-color: #fff;
         border: none;
+        margin: 20px 20px;
+        text-align: center;
       }
     }
   }
