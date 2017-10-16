@@ -8,21 +8,21 @@
   	<button @click="toQuitPlanet()" v-else>退出星球</button>
   </div>
   <div v-if="!planetItem.private" class="JoinPlanetCardsList">
-  	<div v-for="item in planetListItem" class="JoinPlanetCard">
+  	<div v-for="(item, index) in planetListItem" class="JoinPlanetCard">
   	  <header>
   	    <img  :src="item.author.avatar_url"/>
   	    <span>{{ item.author.name }}</span>
   	    <span>{{ item.create_time }}</span>
   	  </header>
-  	  <h2 @click="$router.push({path: `/postcontent/${item.id}`, query: {title: planetItem.name}})">{{ item.title }}</h2>
+  	  <h2 @click="$router.push({path: `/topic/${item.id}`, query: {title: planetItem.name, name: item.title}})">{{ item.title }}</h2>
   	  <p>{{ item.content }}</p>
   	  <div v-for="imgs in item.image_url" class="JoinPlanetCardImgBox">
   	    <img :src="imgs"/>
   	  </div>
   	  <footer>
-  	    <button><i class="iconfont icon-talk"></i>{{ item.replied_num }}</button>
-        <button><i class="iconfont icon-good"></i>{{ item.approved_num }}</button>
-        <button><i class="iconfont icon-star"></i>{{ item.collected_num }}</button>
+  	    <button :class="{clicked: item.replied}" @click="$router.push({path: `/topic/${item.id}`, query: {title: planetItem.name, name: `${item.title}`}})"><i class="iconfont icon-talk"></i>{{ item.replied_num }}</button>
+        <button :class="{clicked: item.approved}" @click="onApproval(item.id, index)"><i class="iconfont icon-good"></i>{{ item.approved_num }}</button>
+        <button :class="{clicked: item.collected}" @click="onCollection(item.id, index)"><i class="iconfont icon-star"></i>{{ item.collected_num }}</button>
   	  </footer>
   	</div>
   </div>
@@ -32,7 +32,7 @@
 
 <script>
 import { getSinglePlanet, joinPlanet, isJoinPlanet, quitPlanet } from '../fetch/groups'
-import { showSinglePlanet } from '../fetch/posts'
+import { showSinglePlanet, toApproval, toCollection, indexPosts } from '../fetch/posts'
 import store from '../vuex/store'
 export default {
   name: 'JoinPlanet',
@@ -43,9 +43,11 @@ export default {
       join: true,
     }
   },
+  created () {
+    document.title = this.$route.query.name + ' - 午安网 - 过你想过的生活'
+  },
   mounted () {
     var self = this;
-    let id = JSON.parse(localStorage.getItem("user")).id || store.state.userInfo.id
     var params = {
       offset: 0,
       limit: 20,
@@ -66,23 +68,36 @@ export default {
       console.log('err: '+ error);
       this.$Message.error(error);
     })
-    isJoinPlanet(this.$route.params.id, id).then(response => {
-      this.join = response.success ? false : true
-    }).catch(error => {
-      console.log('err: '+ error);
-      this.$Message.error(error);
-    })
-  },
-  methods: {
-    toJoinPlanet: function () {
-      joinPlanet(this.$route.params.id).then(response => {
-        console.log(response)
-        this.join = false
-        this.$Message.success('加入成功')
+    let id = JSON.parse(localStorage.getItem("user")) === null ? '' : JSON.parse(localStorage.getItem("user")).id
+    if (id === '') {
+      this.join = true
+    } else {
+      isJoinPlanet(this.$route.params.id, id).then(response => {
+        this.join = response.success ? false : true
       }).catch(error => {
         console.log('err: '+ error);
         this.$Message.error(error);
       })
+    }
+  },
+  methods: {
+    toJoinPlanet: function () {
+      let id = JSON.parse(localStorage.getItem("user")) === null ? '' : JSON.parse(localStorage.getItem("user")).id
+      if (id === '') {
+        this.$router.push({
+          path: '/login',
+          query: {title: '返回'}
+        })
+      } else {
+        joinPlanet(this.$route.params.id).then(response => {
+          console.log(response)
+          this.join = false
+          this.$Message.success('加入成功')
+        }).catch(error => {
+          console.log('err: '+ error);
+          this.$Message.error(error);
+        })
+      }
     },
     toQuitPlanet: function () {
       quitPlanet(this.$route.params.id).then(response => {
@@ -93,6 +108,47 @@ export default {
         console.log('err: '+ error);
         this.$Message.error(error);
       })
+    },
+    onApproval: function(value, index) {
+      let self = this;
+      if (JSON.parse(localStorage.getItem("user")) === null) {
+        this.$router.push({
+          path: '/login',
+          query: {title: '返回'}
+        })
+      } else {
+        toApproval(value).then(function (response) {
+          console.log("点赞成功：" + response.success);
+          self.planetListItem[index].approved_num += self.planetListItem[index].approved ? -1 : 1
+          self.planetListItem[index].approved = !self.planetListItem[index].approved
+        }).catch(function (error) {
+          console.log('Error: ' + error);
+          this.$Message.error('出现错误　'+error);
+        })
+      }
+    },
+    onCollection: function(post_id, index) {
+      let self = this;
+      if (JSON.parse(localStorage.getItem("user")) === null) {
+        this.$router.push({
+          path: '/login',
+          query: {title: '返回'}
+        })
+      } else {
+        let Id = JSON.parse(localStorage.getItem("user")).id || store.state.userInfo.id
+        const params = {
+          id: Id,
+          post_id: post_id
+        }
+        toCollection(params).then(function (response) {
+          console.log("收藏成功：　"+response.success);
+          self.planetListItem[index].collected_num += self.planetListItem[index].collected ? -1 : 1
+          self.planetListItem[index].collected = !self.planetListItem[index].collected
+        }).catch(error => {
+          console.log(error)
+          this.$Message.error('出现错误　'+error)
+        })
+      }
     }
   }
 }
@@ -232,7 +288,6 @@ export default {
         button{
           font-size: 12px;
           line-height: 16.5px;
-          color: #5677FC;
           opacity: 0.54;
           width: 33.3%;
           border: none;
@@ -244,9 +299,17 @@ export default {
           i{
             margin-right: 9px;
           }
+          i.clicked{
+            opacity: 0.54;
+            color: #5677FC;
+          }
         }
         button:nth-of-type(3){
           border: none;
+        }
+        button.clicked{
+          opacity: 0.54;
+          color: #5677FC;
         }
       }
     }

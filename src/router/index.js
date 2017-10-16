@@ -122,7 +122,7 @@ const router = new Router({
       }
       //beforeEnter: isLogin,
     }, {
-      path: '/allplanet',
+      path: '/universe',
       name: 'allplanet',
       components: {
         default: Allplanet,
@@ -185,7 +185,7 @@ const router = new Router({
         header: SearchHeader,
       }
     }, {
-      path: '/postcontent',
+      path: '/topic',
       name: 'postcontent',
       components: {
         default: PostContent,
@@ -199,8 +199,8 @@ const router = new Router({
         }
       }]
     }, {
-      path: '/joinplanet',
-      name: 'joinplanet',
+      path: '/planet',
+      name: 'planet',
       components: {
         default: JoinPlanet,
         header: NullHeader,

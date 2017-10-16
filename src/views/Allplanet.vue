@@ -4,7 +4,7 @@
             @on-pulldown='onPullup'
             class="page">
     <ul class="allplanet-list">
-      <li v-for="item in items" class="profile-item" @click="$router.push({path: `/joinplanet/${item.id}`})">
+      <li v-for="item in items" class="profile-item" @click="$router.push({path: `/planet/${item.id}`, query: {name: `${item.name}`}})">
         <img :src="item.image_url"/>
         <div>
           <p class="title">{{ item.name }}</p>
@@ -29,6 +29,9 @@ export default {
       items: [],
       i: 0,
     }
+  },
+  created () {
+    document.title = this.$route.query.name + ' - 午安网 - 过你想过的生活'
   },
   mounted () {
     let self = this;

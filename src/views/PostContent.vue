@@ -63,7 +63,8 @@ export default {
     }
   },
   created() {
-    this.postid = this.$route.params.id;
+    this.postid = this.$route.params.id
+    document.title = this.$route.query.name + ' - 午安网 - 过你想过的生活'
   },
   mounted() {
     var self = this;
