@@ -3,12 +3,12 @@
   <div class="SearchPlanets">
     <header>星球</header>
     <div class="SearchPlanetsList">
-      <div class="SearchPlanet" v-for="(item, index) in groupList" v-if="index > 2 ? false : true" @click="$router.push({path: `/joinplanet/${item.id}`})">
+      <div class="SearchPlanet" v-for="(item, index) in groupList" v-if="index > 2 ? false : true" @click="$router.push({path: `/planet/${item.id}`, query: {name: `${item.name}`}})">
         <img :src="item.image_url"/>
         <span>{{ item.name }}</span>
       </div>
     </div>
-    <footer @click="$router.push({path: `/allplanet`, query: {title: '相关星球', serachText: $store.state.searchContent}})">
+    <footer @click="$router.push({path: `/universe`, query: {title: '相关星球', serachText: $store.state.searchContent, name: '相关星球'}})">
       <span>查看更多相关星球</span>
       <i class="iconfont icon-enter"></i>
     </footer>
@@ -17,7 +17,7 @@
     <header>帖子</header>
     <div class="SearchCardsList">
       <div class="SearchCard" v-for="item in postList">
-        <header @click="$router.push({path: `/postcontent/${item.id}`, query: {title: '搜索'}})">{{ item.title }}</header>
+        <header @click="$router.push({path: `/topic/${item.id}`, query: {title: '搜索', name: item.title}})">{{ item.title }}</header>
         <p>
           {{ item.content }}
         </p>

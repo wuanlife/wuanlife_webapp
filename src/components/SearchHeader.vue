@@ -1,7 +1,7 @@
 <template>
 <div id="SearchHeader">
     <i class="iconfont icon-goback" @click="$router.go(-1)"></i>
-    <input v-model="searchtext" type="text" placeholder="搜索星球或帖子" />
+    <input @keyup.enter="search()" v-model="searchtext" type="text" placeholder="搜索星球或帖子" />
     <i class="iconfont icon-search" @click="search()"></i>
 </div>
 </template>

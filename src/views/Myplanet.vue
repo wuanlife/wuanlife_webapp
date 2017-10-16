@@ -1,10 +1,10 @@
 <template>
     <div class="Myplanet">
-      <div v-for="(item, index) in items" class="Myplanet_planet" v-if="index > n ? false : true" @click="$router.push({path: `/joinplanet/${item.id}`})">
+      <div v-for="(item, index) in items" class="Myplanet_planet" v-if="index > n ? false : true" @click="$router.push({path: `/planet/${item.id}`, query: {name: `${item.name}`}})">
       <img :src="item.image_url"/>
       <p>{{ item.name }}</p>
     </div>
-    <div class="Myplanet_planet" @click="$router.push({path: '/allplanet', query: {title: '全部星球'}})">
+    <div class="Myplanet_planet" @click="$router.push({path: '/universe', query: {title: '全部星球', name: '全部星球'}})">
       <div><i class="iconfont icon-allPlanet"></i></div>
       <p>全部星球</p>
     </div>

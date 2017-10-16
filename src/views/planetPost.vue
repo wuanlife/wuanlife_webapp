@@ -4,7 +4,7 @@
             @on-pulldown='onPullup'
             class="page">
     <ul v-if="groupNoNull" class="cardPost-list">
-      <li class="profile-item" @click="$router.push('myinfo')" v-for="item in groupPostList">
+      <li class="profile-item" v-for="item in groupPostList">
         <img src=""/>
         <div>
           <p class="cardPost-name">{{ item.user.name }}</p>

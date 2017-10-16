@@ -15,7 +15,7 @@
         </div>
         <div class="body">
           <div class="title">
-            <p @click="$router.push({path: `/postcontent/${item.id}`, query: {title: '主页'}})">{{ item.title }}</p>
+            <p @click="$router.push({path: `/topic/${item.id}`, query: {title: '主页', name: `${item.title}`}})">{{ item.title }}</p>
           </div>
           <div class="brief">
             <p v-html="item.content"></p>
@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="footer">
-          <button :class="{clicked: item.replied}" @click="$router.push({path: `/postcontent/${item.id}`})"><i class="iconfont icon-talk"></i>{{ item.replied_num }}</button>
+          <button :class="{clicked: item.replied}" @click="$router.push({path: `/topic/${item.id}`, query: {name: `${item.title}`}})"><i class="iconfont icon-talk"></i>{{ item.replied_num }}</button>
           <button :class="{clicked: item.approved}" @click="onApproval(item.id, index)"><i class="iconfont icon-good"></i>{{ item.approved_num }}</button>
           <button :class="{clicked: item.collected}" @click="onCollection(item.id, index)"><i class="iconfont icon-star"></i>{{ item.collected_num }}</button>
         </div>
@@ -70,30 +70,44 @@ export default {
     },
     onApproval: function(value, index) {
       let self = this;
-      toApproval(value).then(function (response) {
-        console.log("点赞成功：" + response.success);
-        self.IndexContentList[index].approved_num += self.IndexContentList[index].approved ? -1 : 1
-        self.IndexContentList[index].approved = !self.IndexContentList[index].approved
-      }).catch(function (error) {
-        console.log('Error: ' + error);
-        this.$Message.error('出现错误　'+error);
-      })
+      if (JSON.parse(localStorage.getItem("user")) === null) {
+        this.$router.push({
+          path: '/login',
+          query: {title: '返回'}
+        })
+      } else {
+        toApproval(value).then(function (response) {
+          console.log("点赞成功：" + response.success);
+          self.IndexContentList[index].approved_num += self.IndexContentList[index].approved ? -1 : 1
+          self.IndexContentList[index].approved = !self.IndexContentList[index].approved
+        }).catch(function (error) {
+          console.log('Error: ' + error);
+          this.$Message.error('出现错误　'+error);
+        })
+      }
     },
     onCollection: function(post_id, index) {
       let self = this;
-      let Id = JSON.parse(localStorage.getItem("user")).id || store.state.userInfo.id
-      const params = {
-        id: Id,
-        post_id: post_id
+      if (JSON.parse(localStorage.getItem("user")) === null) {
+        this.$router.push({
+          path: '/login',
+          query: {title: '返回'}
+        })
+      } else {
+        let Id = JSON.parse(localStorage.getItem("user")).id || store.state.userInfo.id
+        const params = {
+          id: Id,
+          post_id: post_id
+        }
+        toCollection(params).then(function (response) {
+          console.log("收藏成功：　"+response.success);
+          self.IndexContentList[index].collected_num += self.IndexContentList[index].collected ? -1 : 1
+          self.IndexContentList[index].collected = !self.IndexContentList[index].collected
+        }).catch(error => {
+          console.log(error)
+          this.$Message.error('出现错误　'+error)
+        })
       }
-      toCollection(params).then(function (response) {
-        console.log("收藏成功：　"+response.success);
-        self.IndexContentList[index].collected_num += self.IndexContentList[index].collected ? -1 : 1
-        self.IndexContentList[index].collected = !self.IndexContentList[index].collected
-      }).catch(error => {
-        console.log(error)
-        this.$Message.error('出现错误　'+error)
-      })
     }
   },
   mounted() {

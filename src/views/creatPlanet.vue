@@ -127,12 +127,13 @@ export default {
       this.pushImg();
     },
     createPlanet () {
+      var self = this
       this.creatPlanetForm.img_url = 'http://7xlx4u.com1.z0.glb.clouddn.com/'+urlkey
       this.creatPlanetForm.selected = this.isSelect
       createGroup(this.creatPlanetForm).then(response => {
         console.log("星球创建成功： id = "+ response.id)
         this.$Message.success('星球创建成功')
-        this.$router.push({path: `/joinplanet/${response.id}`})
+        this.$router.push({path: `/planet/${response.id}`, query: {name: `${self.creatPlanetForm.planetName}`}})
       }).catch(error => {
         console.log(error)
         this.$Message.error(error)

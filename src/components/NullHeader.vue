@@ -1,7 +1,7 @@
 <template>
 <div class="NullHeader">
   <i class="iconfont icon-goback" @click="$router.go(-1)"></i>
-  <button @click="logout()">退出登录</button>
+  <button v-if="this.$store.state.userInfo.id === undefined ? false : true" @click="logout()">退出登录</button>
 </div>
 </template>
 

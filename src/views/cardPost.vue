@@ -4,7 +4,7 @@
             @on-pulldown='onPullup'
             class="page">
     <ul v-if="postNoNull" class="cardPost-list">
-      <li class="profile-item" v-for="item in postList" @click="$router.push({path: `/postcontent/${ item.post.id }`, query: {title: '帖子通知'}})">
+      <li class="profile-item" v-for="item in postList" @click="$router.push({path: `/topic/${ item.post.id }`, query: {title: '帖子通知', name: item.post.title}})">
         <img src=""/>
         <div>
           <p class="cardPost-name">{{ item.user.name }}</p>
