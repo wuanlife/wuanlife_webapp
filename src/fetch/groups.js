@@ -78,3 +78,17 @@ export function createGroup (params) {
     data: data
   })
 }
+
+//获取用户加入的星球
+export function userJoinPlanet (params) {
+  const data = {
+      offset: params.offset,
+      limit: params.limit,
+      user_id: params.id
+  }
+  return fetchWuan({
+    url: '/groups',
+    method: 'get',
+    params: data
+  })
+}

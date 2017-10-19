@@ -136,7 +136,7 @@ export default {
     color: rgba(255,255,255,0.87);
     box-shadow:  0 2px 6px 0 rgba(0,0,0,0.24);
     border: none;
-    margin-top: 106.5px;
+    margin-top: 66.5px;
   }
 }
 </style>

@@ -15,7 +15,7 @@
         </div>
         <div class="body">
           <div class="title">
-            <p @click="$router.push({path: `/topic/${item.id}`, query: {title: '主页', name: `${item.title}`}})">{{ item.title }}</p>
+            <p><button style="border: 0;background-color: transparent;" @click="$router.push({path: `/topic/${item.id}`, query: {title: '主页', name: `${item.title}`}})">{{ item.title }}</button></p>
           </div>
           <div class="brief">
             <p v-html="item.content"></p>

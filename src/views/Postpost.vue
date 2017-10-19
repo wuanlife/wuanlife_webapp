@@ -189,7 +189,7 @@ export default {
     box-shadow: 0 0 1px 0 rgba(0,0,0,0.12), 0 1px 1px 0 rgba(0,0,0,0.24);
     border-radius: 2px;
     width: 100%;
-    height: 401px;
+    height: 60vh;
     resize: none;
     margin-top: 9px;
     margin-bottom: 12px;

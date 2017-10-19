@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { groupsList, searchGroup } from '../fetch/groups'
+import { groupsList, searchGroup, userJoinPlanet } from '../fetch/groups'
 export default {
   name: 'myplanet',
   data () {
@@ -27,11 +27,24 @@ export default {
   },
   mounted: function () {
     let self = this;
-    groupsList(0, 20).then(response => {
-      this.items = response.data;
-    }).catch(error => {
-      this.$Message.error(error)
-    })
+    if (JSON.parse(localStorage.getItem("user")) !== null) {
+      let id = JSON.parse(localStorage.getItem("user")).id || store.state.userInfo.id
+      userJoinPlanet({
+          offset: 0,
+          limit: 4,
+          id: id
+      }).then(response => {
+        this.items = response.data;
+      }).catch(error => {
+        this.$Message.error(error)
+      })
+    } else {
+      groupsList(0, 20).then(response => {
+        this.items = response.data;
+      }).catch(error => {
+        this.$Message.error(error)
+      })
+    }
   },
 
   methods: {
@@ -68,7 +81,7 @@ div.Myplanet{
   text-align: left;
   .Myplanet_planet{
     display: inline-block;
-    width: 32.7%;
+    width: 32.6%;
     text-align: center;
     > img{
       width: 50px;

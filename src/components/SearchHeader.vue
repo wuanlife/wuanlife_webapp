@@ -33,6 +33,7 @@ export default {
 #SearchHeader {
     display: flex;
     align-items: center;
+    width: 100vw;
     height: 64px;
     position: fixed;
     top: 0;
@@ -59,7 +60,7 @@ export default {
       color: #5366d3;
     }
     input {
-      width: 311px;
+      width: 83vw;
       height: 48px;
       border-radius: 2px;
       box-sizing: border-box;
