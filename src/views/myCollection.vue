@@ -6,7 +6,7 @@
   <div>
     <div></div>
     <div v-if="isCollects" v-for="item in myCollectionList" class="myCollectionCard">
-    <header @click="$router.push({path: `/postcontent/${item.id}`, query: {title: '我的收藏'}})">{{ item.title }}</header>
+    <header><button style="border: none;background-color: transparent;" @click="$router.push({path: `/topic/${item.id}`, query: {title: '我的收藏'}})">{{ item.title }}</button></header>
     <p>{{ item.content }}</p>
     <div class="myCollectionCardImgBox" >
       <img v-for="imgs in item.image_url" :src="imgs"/>

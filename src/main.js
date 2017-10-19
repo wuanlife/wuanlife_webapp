@@ -6,12 +6,12 @@ import store from './vuex/store'
 import router from './router'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
-import FastClick from 'fastclick'
+//import FastClick from 'fastclick'
 
 Vue.use(iView)
 Vue.config.productionTip = false
 
-FastClick.attach(document.body)
+//FastClick.attach(document.body)
 
 /* eslint-disable no-new */
 new Vue({

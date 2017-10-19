@@ -153,7 +153,6 @@ export default {
 .creatPlanet{
   padding: 0 36px;
   form{
-    margin-top: 25px;
     > span{
       width: 100%;
       height: 16.5px;
@@ -206,7 +205,7 @@ export default {
       height: 70px;
       border-radius: 100%;
       display: block;
-      margin: 15px auto 38px auto;
+      margin: 15px auto 18px auto;
       background: #FAFAFA;
       box-shadow: 0 0 1px 0 rgba(0,0,0,0.12), 0 1px 1px 0 rgba(0,0,0,0.24);
     }
@@ -225,7 +224,7 @@ export default {
     }
     textarea{
       width: 100%;
-      height: 130px;
+      height: 20vh;
       padding: 14px 8px;
       box-sizing: border-box;
       font-size: 14px;

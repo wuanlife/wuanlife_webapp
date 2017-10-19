@@ -4,10 +4,10 @@
             @on-pulldown='onPullup'
             class="page">
     <ul class="allplanet-list">
-      <li v-for="item in items" class="profile-item" @click="$router.push({path: `/planet/${item.id}`, query: {name: `${item.name}`}})">
+      <li v-for="item in items" class="profile-item">
         <img :src="item.image_url"/>
         <div>
-          <p class="title">{{ item.name }}</p>
+          <p class="title"><button style="border: 0;background-color: transparent;" @click="$router.push({path: `/planet/${item.id}`, query: {name: `${item.name}`}})">{{ item.name }}</button></p>
           <p class="postContent">{{ item.introduction }}</p>
         </div>
       </li>
@@ -18,7 +18,7 @@
 
 <script>
 import loadmore from '@/components/Loadmore/pull-to-refresh'
-import { groupsList, searchGroup } from '../fetch/groups'
+import { groupsList, searchGroup, userJoinPlanet } from '../fetch/groups'
 export default {
   name: 'allplanet',
   components:{
@@ -47,11 +47,22 @@ export default {
         console.log(error)
         this.$Message.error('出现错误'+error)
       })
-    } else {
+    } else if (JSON.parse(localStorage.getItem("user")) === null) {
       groupsList(0, 20).then(response => {
         this.items = response.data;
       }).catch(error => {
         console.log(error)
+        this.$Message.error(error)
+      })
+    } else {
+      let id = JSON.parse(localStorage.getItem("user")).id || store.state.userInfo.id
+      userJoinPlanet({
+        offset: 0,
+        limit: 20,
+        id: id
+      }).then(response => {
+        this.items = response.data;
+      }).catch(error => {
         this.$Message.error(error)
       })
     }
@@ -69,10 +80,24 @@ export default {
           })
           done()
         }, 1500)
-      } else {
+      } else if (JSON.parse(localStorage.getItem("user")) === null) {
         setTimeout(function () {
           groupsList(20 * self.i, 20).then(function (response) {
             self.items = self.items.concat(response.data)
+          })
+          done()
+        }, 1500)
+      } else {
+        let id = JSON.parse(localStorage.getItem("user")).id || store.state.userInfo.id
+        setTimeout(function () {
+          userJoinPlanet({
+            offset: 20 * self.i,
+            limit: 20,
+            id: id
+          }).then(response => {
+            self.items = self.items.concat(response.data)
+          }).catch(error => {
+            this.$Message.error(error)
           })
           done()
         }, 1500)
