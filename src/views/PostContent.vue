@@ -16,21 +16,21 @@
         <button @click="onCollection(contents.id)"><i class="iconfont icon-star"></i>{{ contents.collected_num }}</button>
       </div>
       <div class="PostContentBtn btnTwo">
-        <button @click="toTop()">置顶</button>
-        <button @click="toLock()">锁定</button>
-        <button @click="toEdit()">编辑</button>
-        <button @click="toDelete()">删除</button>
+        <button @click="toTop(contents.sticky)">置顶</button>
+        <button @click="toLock(contents.lock)">锁定</button>
+        <button @click="toEdit(contents.lock)">编辑</button>
+        <button @click="toDelete(contents.lock)">删除</button>
       </div>
       <div class="PostContentCommentList">
         <span>{{ comments.reply_count }}个回复</span>
-        <div v-for="item in comments.reply" class="PostContentComment">
+        <div v-for="(item, index) in comments.reply" class="PostContentComment">
           <header>
             <span>{{ item.user_name }}</span>
             <span>{{ item.create_time }}</span>
           </header>
           <p>{{ item.comment }}</p>
           <footer>
-            <button @click="toDeleteReply(item.floor)">删除</button>
+            <button @click="toDeleteReply(item.floor, index)">删除</button>
             <button>回复</button>
           </footer>
         </div>
@@ -92,7 +92,11 @@ export default {
     })
   },
   methods: {
-    toTop: function () {
+    toTop: function (val) {
+      if (val) {
+        this.$Message.warning('已经置顶了，无需重复操作！')
+        return
+      }
       postTop(this.$route.params.id).then(response => {
         console.log("帖子置顶：　"+response.success)
         this.$Message.success('置顶成功')
@@ -101,7 +105,11 @@ export default {
         this.$Message.error('置顶失败')
       })
     },
-    toLock: function () {
+    toLock: function (val) {
+      if (val) {
+        this.$Message.warning('已经锁定了，无需重复操作！')
+        return
+      }
       postLock(this.$route.params.id).then(response => {
         console.log("帖子锁定：　"+response.success)
         this.$Message.success('锁定成功')
@@ -110,17 +118,26 @@ export default {
         this.$Message.error('锁定失败')
       })
     },
-    toEdit: function () {
+    toEdit: function (val) {
+      if (val) {
+        this.$Message.warning('帖子已锁定，无法编辑')
+        return
+      }
       store.dispatch('setPostEditContent', {
         title: this.contents.title,
         content: this.contents.content,
       })
       this.$router.push({path: `/postpost`, query: { postId: this.contents.id, title: '编辑帖子', edit: true }})
     },
-    toDelete: function () {
+    toDelete: function (val) {
+      if (val) {
+        this.$Message.warning('帖子已锁定，无法删除')
+        return
+      }
       postDelete(this.$route.params.id).then(response => {
         console.log("帖子删除：　"+response.success)
         this.$Message.success('删除成功')
+        this.$router.go(-1)
       }).catch(error => {
         console.log("错误　帖子删除：　"+error)
         this.$Message.error('删除失败')
@@ -143,10 +160,11 @@ export default {
         this.$Message.error('回复失败')
       })
     },
-    toDeleteReply: function (floor) {
+    toDeleteReply: function (floor, index) {
       postReplyDelete(this.contents.id, floor).then(response => {
         console.log("帖子回复删除：　"+response.success)
         this.$Message.success('删除回复成功')
+        this.comments.reply.splice(index, 1)
       }).catch(error => {
         console.log("错误　帖子回复删除：　"+error)
         this.$Message.error('删除回复失败')

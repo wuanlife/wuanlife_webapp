@@ -4,7 +4,7 @@
       <i class="iconfont icon-privatenotice"></i>
       <div class="content"  @click="$router.push({path: '/planetapply', query: {title: '私密星球申请'}})">
         <h1>私密星球申请</h1>
-        <p v-if="applyNull"><span>{{ applyNull.user.name }}</span> 申请加入 <span>{{ applyNull.group.name }}</span></p>
+        <p v-if="applyNull"><span>{{ applyMessage.user.name }}</span> 申请加入 <span>{{ applyMessage.group.name }}</span></p>
         <p v-else>暂无消息</p>
         <i class="iconfont icon-dot" v-if="reddot1"></i>
       </div>
@@ -43,8 +43,8 @@ export default {
       applyMessage: {},
       postMessage: {},
       groupMessage: {},
-      postNull: true,
-      groupNull: true,
+      postNull: false,
+      groupNull: false,
       applyNull: false,
     }
   },
@@ -55,9 +55,18 @@ export default {
       limit: 20,
       type: 'home'
     }).then(response => {
-      this.applyMessage = response.data.apply === null ? {} : response.data.apply
+      if (response.data.apply !== null) {
+        this.applyMessage = response.data.apply === null ? {} : response.data.apply
+        this.applyNull = true
+      }
+      if (response.data.post !== null) {
       this.postMessage = response.data.post === null ? {} : response.data.post
+      this.postNull = true
+      }
+      if (response.data.group !== null) {
       this.groupMessage = response.data.group === null ? {} : response.data.group
+      this.groupNull = true
+      }
     }).catch(error => {
       console.log(error)
       this.$Message.error(error)

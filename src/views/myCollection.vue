@@ -5,20 +5,22 @@
             class="page">
   <div>
     <div></div>
-    <div v-if="isCollects" v-for="item in myCollectionList" class="myCollectionCard">
-    <header><button style="border: none;background-color: transparent;" @click="$router.push({path: `/topic/${item.id}`, query: {title: '我的收藏'}})">{{ item.title }}</button></header>
-    <p>{{ item.content }}</p>
-    <div class="myCollectionCardImgBox" >
-      <img v-for="imgs in item.image_url" :src="imgs"/>
-    </div>
-    <footer>
-      <span>{{ item.group.name }}</span>
-      <div class="myCollectionCardTime">
-        收藏于 {{ item.create_time }}
+    <div v-if="isCollects" class="">
+    	<div v-for="item in myCollectionList" class="myCollectionCard">
+      <header><button style="border: none;background-color: transparent;" @click="$router.push({path: `/topic/${item.id}`, query: {title: '我的收藏'}})">{{ item.title }}</button></header>
+      <p>{{ item.content }}</p>
+      <div class="myCollectionCardImgBox" >
+        <img v-for="imgs in item.image_url" :src="imgs"/>
       </div>
-    </footer>
-  </div>
-  <p v-else>暂无收藏哦！</p>
+      <footer>
+        <span>{{ item.group.name }}</span>
+        <div class="myCollectionCardTime">
+          收藏于 {{ item.create_time }}
+        </div>
+      </footer>
+    </div>
+    </div>
+    <p v-else>暂无收藏哦！</p>
   </div>
 </loadmore>
 </div>
@@ -37,6 +39,7 @@ export default {
     return {
       myCollectionList: [],
       i: 0,
+      isCollects: false,
     }
   },
   mounted () {
@@ -45,22 +48,19 @@ export default {
       limit: 20,
       offset: 0
     }).then(response => {
-      response.data.forEach(function (el) {
-        el.create_time = el.create_time.slice(0, 10) + ' ' + el.create_time.slice(11, 16)
-      })
-      this.myCollectionList = response.data
+      if (response.data === undefined) {
+        this.isCollects = false
+      } else {
+        response.data.forEach(function (el) {
+          el.create_time = el.create_time.slice(0, 10) + ' ' + el.create_time.slice(11, 16)
+        })
+        this.myCollectionList = response.data
+        this.isCollects = true
+      }
     }).catch(error => {
       console.log(error)
       this.$Message.error(error)
     })
-  },
-  computed: {
-    isCollects () {
-      if(this.myCollectionList == []) {
-        return false
-      }
-      return true
-    },
   },
   methods: {
     onPullup: function (done) {

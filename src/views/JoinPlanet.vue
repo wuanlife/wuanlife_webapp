@@ -7,7 +7,7 @@
   	<button @click="toJoinPlanet()" v-if="join">加入</button>
   	<button @click="toQuitPlanet()" v-else>退出星球</button>
   </div>
-  <div v-if="!planetItem.private" class="JoinPlanetCardsList">
+  <div v-if="isNotPrivate" class="JoinPlanetCardsList">
   	<div v-for="(item, index) in planetListItem" class="JoinPlanetCard">
   	  <header>
   	    <img  :src="item.author.avatar_url"/>
@@ -41,6 +41,9 @@ export default {
       planetItem: {},
       planetListItem: [],
       join: true,
+      isNotPrivate: true,
+      isPrivate: false,
+      isJoin: false
     }
   },
   created () {
@@ -55,29 +58,49 @@ export default {
     }
     getSinglePlanet(this.$route.params.id).then(response => {
       this.planetItem = response;
+      if (response.identity === 'creator' || response.identity === 'member') {
+        this.join = false
+      }
+      if (response.private) {
+        this.isPrivate = true
+        if (response.identity === 'creator' || response.identity === 'member') {
+          this.isNotPrivate = true
+          this.isJoin = true
+          return
+        }
+        this.isNotPrivate = false
+      }
     }).catch(error => {
       console.log('err: '+ error);
       this.$Message.error(error);
     })
     showSinglePlanet(params).then(response => {
+//    var topArr = []
+//    var otherArr = []
       response.data.forEach(function (el) {
         el.create_time = el.create_time.slice(0, 10) + ' ' + el.create_time.slice(11, 16)
+//      if (el.sticky) {
+//        topArr.push(el)
+//      } else {
+//        otherArr.push(el)
+//      }
       })
-      self.planetListItem = response.data
+      self.planetListItem = response.data // topArr.concat(otherArr)
     }).catch(error => {
       console.log('err: '+ error);
-      this.$Message.error(error);
+      //this.$Message.error(error);
     })
     let id = JSON.parse(localStorage.getItem("user")) === null ? '' : JSON.parse(localStorage.getItem("user")).id
     if (id === '') {
       this.join = true
     } else {
-      isJoinPlanet(this.$route.params.id, id).then(response => {
-        this.join = response.success ? false : true
-      }).catch(error => {
-        console.log('err: '+ error);
-        this.$Message.error(error);
-      })
+//  验证是否加入星球
+//    isJoinPlanet(this.$route.params.id, id).then(response => {
+//      this.join = response.success ? false : true
+//    }).catch(error => {
+//      console.log('err: '+ error);
+//      this.$Message.error(error);
+//    })
     }
   },
   methods: {
@@ -89,24 +112,30 @@ export default {
           query: {title: '返回'}
         })
       } else {
-        joinPlanet(this.$route.params.id).then(response => {
-          console.log(response)
-          this.join = false
-          this.$Message.success('加入成功')
-        }).catch(error => {
-          console.log('err: '+ error);
-          this.$Message.error(error);
-        })
+        if (this.isPrivate) { //判断是否为私密星球，如果是私密星球且没有加入，则跳转到申请页面
+          if (!this.isJoin) {
+            this.$router.push({path: `/applyPrivatePlanet`, query: { postId: this.$route.params.id, title: '加入星球' }})
+          }
+        } else {
+          joinPlanet(this.$route.params.id).then(response => {
+            console.log(response)
+            this.join = false
+            this.$Message.success('加入成功')
+          }).catch(error => {
+            console.log('err: '+ error);
+            this.$Message.error(error);
+          })
+        }
       }
     },
     toQuitPlanet: function () {
       quitPlanet(this.$route.params.id).then(response => {
         console.log(response)
         this.join = true
-        this.$Message.success('退出成功')
+        this.$Message.success(response.success)
       }).catch(error => {
         console.log('err: '+ error);
-        this.$Message.error(error);
+        this.$Message.error('出现错误，请重试!(星球创建者无法退出)');
       })
     },
     onApproval: function(value, index) {

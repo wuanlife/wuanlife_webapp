@@ -112,13 +112,9 @@ export function postReply (params) {
 
 //删除帖子回复
 export function postReplyDelete (postId, floor) {
-  const data = {
-    floor: floor
-  }
   return fetchWuan({
-    url: `/posts/${postId}/comments`,
-    method: 'delete',
-    data: data
+    url: `/posts/${postId}/comments/${floor}`,
+    method: 'delete'
   })
 }
 

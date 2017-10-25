@@ -107,6 +107,7 @@ export default {
       if (this.isMessage) {
         changeUserPassword(id, this.changePwdForm).then(response => {
           this.$Message.success('修改成功')
+          this.$router.push({path: '/login', query: {title: '登录'}})
         }).catch(error => {
           this.isSuccess = false
           console.log(error)

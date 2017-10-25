@@ -56,12 +56,16 @@ export default {
   },
   watch: {
     getsearch: function () {
+      this.groupList = []
+      this.postList = []
       searchGroup({
         limit: 20,
         offset: 0,
         name: this.getsearch
       }).then(response => {
-        this.groupList = response.data
+        if (response.data !== undefined) {
+          this.groupList = response.data
+        }
       }).catch(error => {
         console.log(error)
         this.$Message.error('出现错误'+error)
@@ -71,10 +75,12 @@ export default {
         offset: 0,
         name: this.getsearch
       }).then(response => {
-        response.data.forEach(function (el) {
-          el.create_time = el.create_time.slice(0, 10) + ' ' + el.create_time.slice(11, 16)
-        })
-        this.postList = response.data
+        if (response.data !== undefined) {
+          response.data.forEach(function (el) {
+            el.create_time = el.create_time.slice(0, 10) + ' ' + el.create_time.slice(11, 16)
+          })
+          this.postList = response.data
+        }
       }).catch(error => {
         console.log(error)
         this.$Message.error('出现错误'+error)
@@ -88,7 +94,9 @@ export default {
         offset: 0,
         name: this.getsearch
       }).then(response => {
-        this.groupList = response.data
+        if (response.data !== undefined) {
+          this.groupList = response.data
+        }
       }).catch(error => {
         console.log(error)
         this.$Message.error('出现错误'+error)
@@ -98,10 +106,12 @@ export default {
         offset: 0,
         name: this.getsearch
       }).then(response => {
-        response.data.forEach(function (el) {
-          el.create_time = el.create_time.slice(0, 10) + ' ' + el.create_time.slice(11, 16)
-        })
-        this.postList = response.data
+        if (response.data !== undefined) {
+          response.data.forEach(function (el) {
+            el.create_time = el.create_time.slice(0, 10) + ' ' + el.create_time.slice(11, 16)
+          })
+          this.postList = response.data
+        }
       }).catch(error => {
         console.log(error)
         this.$Message.error('出现错误'+error)

@@ -39,6 +39,17 @@ export function joinPlanet (planetId) {
   })
 }
 
+//申请加入私密星球
+export function applyJoinPlanet (planetId, message) {
+  return fetchWuan({
+    url: `/groups/${planetId}/private`,
+    method: 'post',
+    data: {
+      "comment": message
+    }
+  })
+}
+
 //退出星球
 export function quitPlanet (planetId) {
   return fetchWuan({
