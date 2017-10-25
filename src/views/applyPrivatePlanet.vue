@@ -20,10 +20,8 @@ export default {
   methods: {
     toJoinPrivatePlanet: function () {
       applyJoinPlanet(this.$route.query.postId, this.message).then(response => {
-        if (response.success) {
-          this.$Message.success(response.success)
-          this.$router.go(-1)
-        }
+        this.$Message.success('申请成功')
+        this.$router.go(-1)
       }).catch(error => {
         console.log('私密星球申请出错： ' + error)
         this.$Message.error('出现错误！请重试')

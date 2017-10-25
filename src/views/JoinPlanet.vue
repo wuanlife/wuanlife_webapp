@@ -4,7 +4,7 @@
   	<img :src="planetItem.image_url"/>
   	<span>{{ planetItem.name }}</span>
   	<span>成员 {{ planetItem.member_num }}<span></span>话题 {{ planetItem.post_num }}</span>
-  	<button @click="toJoinPlanet()" v-if="join">加入</button>
+  	<button @click="toJoinPlanet(planetItem.identity)" v-if="join">加入</button>
   	<button @click="toQuitPlanet()" v-else>退出星球</button>
   </div>
   <div v-if="isNotPrivate" class="JoinPlanetCardsList">
@@ -104,7 +104,7 @@ export default {
     }
   },
   methods: {
-    toJoinPlanet: function () {
+    toJoinPlanet: function (val) {
       let id = JSON.parse(localStorage.getItem("user")) === null ? '' : JSON.parse(localStorage.getItem("user")).id
       if (id === '') {
         this.$router.push({
@@ -114,7 +114,11 @@ export default {
       } else {
         if (this.isPrivate) { //判断是否为私密星球，如果是私密星球且没有加入，则跳转到申请页面
           if (!this.isJoin) {
+            if (val === 'is_applied') {
+              this.$Message.warning('申请中，请不要重复申请！')
+            } else {
             this.$router.push({path: `/applyPrivatePlanet`, query: { postId: this.$route.params.id, title: '加入星球' }})
+            }
           }
         } else {
           joinPlanet(this.$route.params.id).then(response => {

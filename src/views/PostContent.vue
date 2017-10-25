@@ -60,6 +60,7 @@ export default {
       comments: [],
       planetName: '',
       comment: '',
+      planetId: 1,
     }
   },
   created() {
@@ -78,6 +79,7 @@ export default {
       this.contents = response;
       getSinglePlanet(response.group.id).then(res => {
         this.planetName = res.name;
+        this.planetId = res.creator.id
       })
     }).catch(error =>　{
       console.log(error)
@@ -93,17 +95,24 @@ export default {
   },
   methods: {
     toTop: function (val) {
-      if (val) {
-        this.$Message.warning('已经置顶了，无需重复操作！')
-        return
+      console.log('ddddd')
+      let Id = JSON.parse(localStorage.getItem("user")).id || store.state.userInfo.id
+      if (Id === this.planetId) {
+        if (val) {
+          this.$Message.warning('已经置顶了，无需重复操作！')
+         return
+        }
+        postTop(this.$route.params.id).then(response => {
+          console.log("帖子置顶：　"+response.success)
+          this.$Message.success('置顶成功')
+        }).catch(error => {
+          console.log("错误　帖子置顶：　"+error)
+          this.$Message.error('置顶失败')
+        })
+      } else {
+        this.$Message.warning('您不是创建者，无权利置顶')
       }
-      postTop(this.$route.params.id).then(response => {
-        console.log("帖子置顶：　"+response.success)
-        this.$Message.success('置顶成功')
-      }).catch(error => {
-        console.log("错误　帖子置顶：　"+error)
-        this.$Message.error('置顶失败')
-      })
+      
     },
     toLock: function (val) {
       if (val) {
