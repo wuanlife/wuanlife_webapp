@@ -6,7 +6,7 @@
       <label class="fontSizeOne textColorTwo">邮箱</label>
       <span class="fontSizeTwo myInfoEmail">{{ backMyInfo.mail }}</span>
       <button v-if="backMyInfo.mail_checked" class="fontSizeThere emailBtn">已验证</button>
-      <button v-else class="fontSizeThere emailBtn">验证</button>
+      <button v-else class="fontSizeThere emailBtn" @click="toEmailVerification">验证</button>
     </div>
     <div class="myInfoFormList">
       <label class="fontSizeOne textColorOne">昵称</label>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { getSingleUser, changeUserInfo } from '../fetch/users'
+import { getSingleUser, changeUserInfo, emailVerification } from '../fetch/users'
 import store from '../vuex/store'
 import { UploaderBuilder, Uploader } from 'qiniu4js'
 import { getQiniuToken } from '../fetch/qiniu'
@@ -238,6 +238,14 @@ export default {
       uploader.chooseFile();
       event.stopPropagation();
     },
+    toEmailVerification () {
+      let id = JSON.parse(localStorage.getItem("user")).id || store.state.userInfo.id
+      emailVerification(id).then(response => {
+        this.$Message.success('验证邮件已发送，请注意查收')
+      }).catch(error => {
+        console.log(error)
+      })
+    }
   }
 }
 </script>

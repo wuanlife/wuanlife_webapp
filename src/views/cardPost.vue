@@ -5,7 +5,7 @@
             class="page">
     <ul v-if="postNoNull" class="cardPost-list">
       <li class="profile-item" v-for="item in postList" @click="$router.push({path: `/topic/${ item.post.id }`, query: {title: '帖子通知', name: item.post.title}})">
-        <img src=""/>
+        <img :src="item.message.image_url"/>
         <div>
           <p class="cardPost-name">{{ item.user.name }}</p>
           <p class="cardPost-content">回复了主题帖 <span>{{ item.post.title }}</span></p>

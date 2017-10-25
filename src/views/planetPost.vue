@@ -5,10 +5,10 @@
             class="page">
     <ul v-if="groupNoNull" class="cardPost-list">
       <li class="profile-item" v-for="item in groupPostList">
-        <img src=""/>
+        <img :src="item.message.image_url"/>
         <div>
           <p class="cardPost-name">{{ item.user.name }}</p>
-          <p class="cardPost-content">退出了 <span>{{ item.group.name }}</span></p>
+          <p class="cardPost-content">{{ item.content }}</p>
         </div>
       </li>
     </ul>

@@ -60,6 +60,7 @@ const JoinPrivatePlanet = resolve => require.ensure([], () => resolve(require('.
 const creatPlanet = resolve => require.ensure([], () => resolve(require('../views/creatPlanet')), 'creatPlanet');
 const getPassword = resolve => require.ensure([], () => resolve(require('../views/getPassword')), 'getPassword');
 const setPassword = resolve => require.ensure([], () => resolve(require('../views/setPassword')), 'setPassword');
+const applyPrivatePlanet = resolve => require.ensure([], () => resolve(require('../views/applyPrivatePlanet')), 'applyPrivatePlanet');
 
 
 import store from '../vuex/store'
@@ -247,7 +248,14 @@ const router = new Router({
         default: setPassword,
         header: SimpleHeader,
       }
-    },
+    }, {
+      path: '/applyPrivatePlanet',
+      name: 'applyPrivatePlanet',
+      components: {
+        default: applyPrivatePlanet,
+        header: SimpleHeader,
+      }
+    }
   ]
 })
 
@@ -261,13 +269,16 @@ router.beforeEach((to, from, next) => {
               path: '/login',
               query: {title: '返回'}
             });
+            console.log("通过3");
         }
         else {
           next();
+          console.log("通过2");
         }
     }
     else {
-        next();
+      next();
+      console.log("通过1");
     }
 })
 export default router;

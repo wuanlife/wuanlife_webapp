@@ -85,3 +85,22 @@ export function changeUserInfo (id,params) {
     data: params
   })
 }
+
+//处理私密申请
+export function delApply (id, mid, data) {
+  return fetchWuan({
+    url: `/users/${id}/messages/${mid}`,
+    method: 'post',
+    data: {
+      is_apply: data
+    }
+  })
+}
+
+//邮箱验证
+export function emailVerification (id) {
+  return fetchWuan({
+    url: `/users/${id}/checkmail`,
+    method: 'post'
+  })    
+}

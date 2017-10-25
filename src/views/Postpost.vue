@@ -15,7 +15,48 @@ import { createPost } from '../fetch/posts'
 import { UploaderBuilder, Uploader } from 'qiniu4js'
 import store from '../vuex/store'
 import { getQiniuToken } from '../fetch/qiniu'
-// qiniu4js uploader object
+
+export default {
+  name: 'postpost',
+  data () {
+    return {
+      PostpostTitle: false,
+      PostpostThings: false,
+      postTitle: '',
+      postContent: '',
+      imgUrls: 'http://7xlx4u.com1.z0.glb.clouddn.com/',
+      imgArr: []
+    }
+  },
+  methods: {
+    PostpostTitleF (n) {
+      let self = this;
+      self.PostpostTitle = false;
+      self.PostpostThings = false;
+      switch (n){
+        case 1:
+          self.PostpostTitle = true;
+          break;
+        case 2:
+          self.PostpostThings = true;
+          break;
+      }
+    },
+    pushPost () {
+      createPost(this.$router.params.postId, {
+        title: this.postTitle,
+        content: this.postContent
+      }).then(response => {
+        console.log("发帖成功，帖子ID: "+response.id)
+        this.$Message.success('发帖成功')
+      }).catch(error => {
+        console.log("发帖失败: "+error)
+        this.$Message.error('发帖失败'+error)
+      })
+    },
+    addImgs (event) {
+      var self = this;
+      // qiniu4js uploader object
   var urlkey='';
   var uploader = new UploaderBuilder()
     .debug(false)//开启debug，默认false
@@ -43,7 +84,7 @@ import { getQiniuToken } from '../fetch/qiniu'
       //中断任务，返回true，任务队列将会在这里中断，不会执行上传操作。
       onInterrupt: function (task) {
         if (this.onIntercept(task)) {
-          this.$Message.warning('请上传小于4m的文件')
+          self.$Message.warning('请上传小于4m的文件')
           return true;
         }
         else {
@@ -71,6 +112,7 @@ import { getQiniuToken } from '../fetch/qiniu'
         //一个任务上传成功后回调
         console.log(task.result.key);//文件的key
         urlkey=task.result.key;
+        self.imgsAdd(urlkey)
       },onTaskFail(task) {
         //一个任务在经历重传后依然失败后回调此函数
         
@@ -82,63 +124,38 @@ import { getQiniuToken } from '../fetch/qiniu'
               
       }
     }).build();
-
-export default {
-  name: 'postpost',
-  data () {
-    return {
-      PostpostTitle: false,
-      PostpostThings: false,
-      postTitle: '',
-      postContent: '',
-      imgUrls: 'http://7xlx4u.com1.z0.glb.clouddn.com/',
-    }
-  },
-  methods: {
-    PostpostTitleF (n) {
-      let self = this;
-      self.PostpostTitle = false;
-      self.PostpostThings = false;
-      switch (n){
-        case 1:
-          self.PostpostTitle = true;
-          break;
-        case 2:
-          self.PostpostThings = true;
+      uploader.chooseFile();
+      event.stopPropagation();
+    },
+    imgsAdd (urlkey) {
+      var self = this
+      if (urlkey !== '') {
           urlkey = "http://7xlx4u.com1.z0.glb.clouddn.com/" + urlkey;
           if (urlkey !== 'http://7xlx4u.com1.z0.glb.clouddn.com/') {
             if (urlkey !== this.imgUrls) {
-              this.postContent = this.postContent + "<img src='"+ urlkey +"' alt='"+ urlkey +"' />"
-              this.imgUrls = urlkey
+              self.postContent = self.postContent + "[图片]"
+              console.log(self.postContent)
+              self.imgArr.push(urlkey)
+              self.imgUrls = urlkey
             }
           }
           urlkey = ""
-          break;
-      }
-    },
-    pushPost () {
-      createPost(this.$router.params.postId, {
-        title: this.postTitle,
-        content: this.postContent
-      }).then(response => {
-        console.log("发帖成功，帖子ID: "+response.id)
-        this.$Message.success('发帖成功')
-      }).catch(error => {
-        console.log("发帖失败: "+error)
-        this.$Message.error('发帖失败'+error)
-      })
-    },
-    addImgs (event) {
-      var self = this;
-      uploader.chooseFile();
-      event.stopPropagation();
+        }
     }
   },
   watch: {
     postContent: function () {
+      var contents = this.postContent
+      var ind = contents.indexOf('[图片]')
+      var i = 0
+      while (ind > -1){
+      	contents = contents.replace(/\[图片\]/, "<img src='" + this.imgArr[i] + "' />")
+      	i++
+      	ind = contents.indexOf('[图片]')
+      }
       store.dispatch('setPostContent', {
         title: this.postTitle,
-        content: this.postContent
+        content: contents
       })
     }
   },
