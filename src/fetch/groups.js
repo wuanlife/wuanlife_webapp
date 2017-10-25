@@ -41,12 +41,13 @@ export function joinPlanet (planetId) {
 
 //申请加入私密星球
 export function applyJoinPlanet (planetId, message) {
+  const data = {
+    text: message
+  }
   return fetchWuan({
     url: `/groups/${planetId}/private`,
     method: 'post',
-    data: {
-      "comment": message
-    }
+    data: data
   })
 }
 
