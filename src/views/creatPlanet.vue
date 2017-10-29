@@ -41,7 +41,7 @@ import { getQiniuToken } from '../fetch/qiniu'
     .retry(2)//设置重传次数，默认0，不重传
     .compress(0.5)//默认为1,范围0-1
     // .scale([200,0])  //第一个参数是宽度，第二个是高度,[200,0],限定高度，宽度等比缩放.[0,100]限定宽度,高度等比缩放.[200,100]固定长宽
-    .size(1024*1024)
+    //.size(1024*1024)
     .chunk(true)
     .auto(true)
     .multiple(false)
