@@ -51,7 +51,7 @@ export default {
         this.$Message.success('发帖成功')
       }).catch(error => {
         console.log("发帖失败: "+error)
-        this.$Message.error('发帖失败'+error)
+        this.$Message.error('发帖失败，请稍后再试')
       })
     },
     addImgs (event) {
@@ -63,7 +63,7 @@ export default {
     .domain({http: "http://upload.qiniu.com", https: "https://up.qbox.me"})
     .retry(2)//设置重传次数，默认0，不重传
     .compress(0.5)//默认为1,范围0-1
-    .scale([200,0])  //第一个参数是宽度，第二个是高度,[200,0],限定高度，宽度等比缩放.[0,100]限定宽度,高度等比缩放.[200,100]固定长宽
+    // .scale([200,0])  //第一个参数是宽度，第二个是高度,[200,0],限定高度，宽度等比缩放.[0,100]限定宽度,高度等比缩放.[200,100]固定长宽
     .size(1024*1024)
     .chunk(true)
     .auto(true)
@@ -149,7 +149,7 @@ export default {
       var ind = contents.indexOf('[图片]')
       var i = 0
       while (ind > -1){
-      	contents = contents.replace(/\[图片\]/, "<img src='" + this.imgArr[i] + "' />")
+      	contents = contents.replace(/\[图片\]/, "<img style='max-width: 100%;' src='" + this.imgArr[i] + "' />")
       	i++
       	ind = contents.indexOf('[图片]')
       }

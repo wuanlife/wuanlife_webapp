@@ -39,7 +39,7 @@
 </loadmore>
 <div class="writeComment">
     <input v-model="comment" type="text" placeholder="写下你的评论"/>
-    <i @click="toReply()" class="iconfont icon-send"></i>
+    <i @click="toReply(contents.lock)" class="iconfont icon-send"></i>
   </div>
 </div>
 </template>
@@ -152,22 +152,26 @@ export default {
         this.$Message.error('删除失败')
       })
     },
-    toReply: function () {
+    toReply: function (val) {
       var self = this;
       var params = {
         Comment: this.comment,
         postId: this.contents.id,
         floor: this.comments.reply_count + 2
       }
-      postReply(params).then(response => {
-        response.create_time = response.create_time.slice(0, 10) + ' ' + response.create_time.slice(11, 16)
-        self.comments.reply.push(response)
-        this.$Message.success('回复成功')
-        this.comment = ''
-      }).catch(error => {
-        console.log("错误　帖子回复：　"+error)
-        this.$Message.error('回复失败')
-      })
+      if (val) {
+        this.$Message.warning('帖子已锁定，无法回复')
+      } else {
+        postReply(params).then(response => {
+          response.create_time = response.create_time.slice(0, 10) + ' ' + response.create_time.slice(11, 16)
+          self.comments.reply.push(response)
+          this.$Message.success('回复成功')
+          this.comment = ''
+        }).catch(error => {
+          console.log("错误　帖子回复：　"+error)
+          this.$Message.error('回复失败')
+        })
+      }
     },
     toDeleteReply: function (floor, index) {
       postReplyDelete(this.contents.id, floor).then(response => {
