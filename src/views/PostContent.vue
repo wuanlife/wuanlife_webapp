@@ -31,15 +31,15 @@
           <p>{{ item.comment }}</p>
           <footer>
             <button @click="toDeleteReply(item.floor, index)">删除</button>
-            <button>回复</button>
+            <button @click="toFloorReply(item.floor)">回复</button>
           </footer>
         </div>
       </div>
     </div>
 </loadmore>
 <div class="writeComment">
-    <input v-model="comment" type="text" placeholder="写下你的评论"/>
-    <i @click="toReply(contents.lock)" class="iconfont icon-send"></i>
+    <input id="reply" v-model="comment" type="text" placeholder="写下你的评论"/>
+    <i @click="toReply(contents.lock, 1)" class="iconfont icon-send"></i>
   </div>
 </div>
 </template>
@@ -61,6 +61,8 @@ export default {
       planetName: '',
       comment: '',
       planetId: 1,
+      replyFloor: false,
+      floorNum: 1,
     }
   },
   created() {
@@ -152,12 +154,15 @@ export default {
         this.$Message.error('删除失败')
       })
     },
-    toReply: function (val) {
+    toReply: function (val, ind) {
       var self = this;
       var params = {
         Comment: this.comment,
         postId: this.contents.id,
-        floor: this.comments.reply_count + 2
+        floor: ind
+      }
+      if (self.replyFloor === true) {
+        params.floor = self.floorNum
       }
       if (val) {
         this.$Message.warning('帖子已锁定，无法回复')
@@ -216,6 +221,12 @@ export default {
         done()
       }, 1500)
     },
+    toFloorReply: function (val) {
+      let self = this
+      const replyInput = document.getElementById('reply')
+      replyInput.focus()
+      this.floorNum = val
+    }
   }
 }
 </script>
