@@ -31,15 +31,15 @@
           <p>{{ item.comment }}</p>
           <footer>
             <button @click="toDeleteReply(item.floor, index)">删除</button>
-            <button>回复</button>
+            <button @click="toFloorReply(item.floor)">回复</button>
           </footer>
         </div>
       </div>
     </div>
 </loadmore>
 <div class="writeComment">
-    <input v-model="comment" type="text" placeholder="写下你的评论"/>
-    <i @click="toReply()" class="iconfont icon-send"></i>
+    <input id="reply" v-model="comment" type="text" placeholder="写下你的评论"/>
+    <i @click="toReply(contents.lock, 1)" class="iconfont icon-send"></i>
   </div>
 </div>
 </template>
@@ -61,6 +61,8 @@ export default {
       planetName: '',
       comment: '',
       planetId: 1,
+      replyFloor: false,
+      floorNum: 1,
     }
   },
   created() {
@@ -152,22 +154,29 @@ export default {
         this.$Message.error('删除失败')
       })
     },
-    toReply: function () {
+    toReply: function (val, ind) {
       var self = this;
       var params = {
         Comment: this.comment,
         postId: this.contents.id,
-        floor: this.comments.reply_count + 2
+        floor: ind
       }
-      postReply(params).then(response => {
-        response.create_time = response.create_time.slice(0, 10) + ' ' + response.create_time.slice(11, 16)
-        self.comments.reply.push(response)
-        this.$Message.success('回复成功')
-        this.comment = ''
-      }).catch(error => {
-        console.log("错误　帖子回复：　"+error)
-        this.$Message.error('回复失败')
-      })
+      if (self.replyFloor === true) {
+        params.floor = self.floorNum
+      }
+      if (val) {
+        this.$Message.warning('帖子已锁定，无法回复')
+      } else {
+        postReply(params).then(response => {
+          response.create_time = response.create_time.slice(0, 10) + ' ' + response.create_time.slice(11, 16)
+          self.comments.reply.push(response)
+          this.$Message.success('回复成功')
+          this.comment = ''
+        }).catch(error => {
+          console.log("错误　帖子回复：　"+error)
+          this.$Message.error('回复失败')
+        })
+      }
     },
     toDeleteReply: function (floor, index) {
       postReplyDelete(this.contents.id, floor).then(response => {
@@ -212,6 +221,12 @@ export default {
         done()
       }, 1500)
     },
+    toFloorReply: function (val) {
+      let self = this
+      const replyInput = document.getElementById('reply')
+      replyInput.focus()
+      this.floorNum = val
+    }
   }
 }
 </script>
