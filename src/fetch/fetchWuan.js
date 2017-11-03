@@ -40,7 +40,8 @@ axiosWuan.interceptors.response.use(function (response) {
 },function (error) {
   console.dir(error);// for debug
   console.log('err' + error);// for debug
-  if(error.response.status == 401) {
+  if (error.response) {
+    if(error.response.status == 401) {
     this.$Message.warning('登录信息失效，请重新登录！')
     this.store.dispatch('Logout').then( () => {
       location.reload();
@@ -55,6 +56,7 @@ axiosWuan.interceptors.response.use(function (response) {
 //    });
 //  })
 //  return Promise.reject(error); 
+}
   }
   return Promise.reject(error)
 })

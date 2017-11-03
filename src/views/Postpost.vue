@@ -254,7 +254,7 @@ export default {
     text-align: left;
   }
   .markdown-editor .CodeMirror {
-  height: 400px;
+  height: 350px;
 }
 }
 </style>
