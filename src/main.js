@@ -6,9 +6,11 @@ import store from './vuex/store'
 import router from './router'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+import VueSimplemde from 'vue-simplemde'
 //import FastClick from 'fastclick'
 
 Vue.use(iView)
+Vue.use(VueSimplemde)
 Vue.config.productionTip = false
 
 //FastClick.attach(document.body)

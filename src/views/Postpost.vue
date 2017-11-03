@@ -5,8 +5,11 @@
   <input type="text" placeholder="帖子标题" @click="PostpostTitleF(1)" v-model="postTitle" />
   <span v-if="PostpostThings">在这里写下你的故事</span>
   <span v-else></span>
-  <textarea placeholder="在这里写下你的故事" @click="PostpostTitleF(2)" v-model="postContent"></textarea>
-  <i @click="addImgs" class="iconfont icon-picture"></i>
+  <markdown-Editor
+    v-model='postContent'
+    :configs="configs"></markdown-Editor>
+  <!--<textarea placeholder="在这里写下你的故事" @click="PostpostTitleF(2)" v-model="postContent"></textarea>
+  <i @click="addImgs" class="iconfont icon-picture"></i>-->
 </div>
 </template>
 
@@ -15,6 +18,7 @@ import { createPost } from '../fetch/posts'
 import { UploaderBuilder, Uploader } from 'qiniu4js'
 import store from '../vuex/store'
 import { getQiniuToken } from '../fetch/qiniu'
+import markdownEditor from 'vue-simplemde/src/markdown-editor'
 
 export default {
   name: 'postpost',
@@ -25,8 +29,24 @@ export default {
       postTitle: '',
       postContent: '',
       imgUrls: 'http://7xlx4u.com1.z0.glb.clouddn.com/',
-      imgArr: []
+      configs: {
+        spellChecker: false,
+        placeholder: '在这里写下你的故事',
+        toolbar: [
+          {
+            name: "image",
+            action: this.addImgs,
+            className: "fa fa-image",
+            title: "image Button",
+          },
+          "|",
+          'preview'
+        ]
+      }
     }
+  },
+  components: {
+    markdownEditor
   },
   methods: {
     PostpostTitleF (n) {
@@ -42,6 +62,9 @@ export default {
           break;
       }
     },
+    add () {
+      console.log('aaaa')
+    },
     pushPost () {
       createPost(this.$router.params.postId, {
         title: this.postTitle,
@@ -54,7 +77,7 @@ export default {
         this.$Message.error('发帖失败，请稍后再试')
       })
     },
-    addImgs (event) {
+    addImgs () {
       var self = this;
       // qiniu4js uploader object
   var urlkey='';
@@ -125,7 +148,7 @@ export default {
       }
     }).build();
       uploader.chooseFile();
-      event.stopPropagation();
+      //event.stopPropagation();
     },
     imgsAdd (urlkey) {
       var self = this
@@ -133,9 +156,7 @@ export default {
           urlkey = "http://7xlx4u.com1.z0.glb.clouddn.com/" + urlkey;
           if (urlkey !== 'http://7xlx4u.com1.z0.glb.clouddn.com/') {
             if (urlkey !== this.imgUrls) {
-              self.postContent = self.postContent + "[图片]"
-              console.log(self.postContent)
-              self.imgArr.push(urlkey)
+              self.postContent = self.postContent + "<img style='max-width: 100%;' src='" + urlkey + "' />"
               self.imgUrls = urlkey
             }
           }
@@ -146,16 +167,16 @@ export default {
   watch: {
     postContent: function () {
       var contents = this.postContent
-      var ind = contents.indexOf('[图片]')
-      var i = 0
-      while (ind > -1){
-      	contents = contents.replace(/\[图片\]/, "<img style='max-width: 100%;' src='" + this.imgArr[i] + "' />")
-      	i++
-      	ind = contents.indexOf('[图片]')
-      }
       store.dispatch('setPostContent', {
         title: this.postTitle,
         content: contents
+      })
+    },
+    postTitle: function () {
+      var titles = this.postTitle
+      store.dispatch('setPostContent', {
+        title: titles,
+        content: this.postContent
       })
     }
   },
@@ -232,5 +253,8 @@ export default {
     margin-left: 8px;
     text-align: left;
   }
+  .markdown-editor .CodeMirror {
+  height: 400px;
+}
 }
 </style>
