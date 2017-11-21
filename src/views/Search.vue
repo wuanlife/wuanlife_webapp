@@ -1,5 +1,8 @@
 <template>
 <div class="Search">
+  <loadmore @on-pullup='onPullup'
+    @on-pulldown='onPullup'
+    class="page">
   <div class="SearchPlanets">
     <header>星球</header>
     <div class="SearchPlanetsList">
@@ -33,6 +36,8 @@
       </div>
     </div>
   </div>
+  </loadmore>
+  
 </div>
 </template>
 
@@ -40,13 +45,18 @@
 import { searchGroup } from '../fetch/groups'
 import { searchPost } from '../fetch/posts'
 import store from '../vuex/store'
+import loadmore from '@/components/Loadmore/pull-to-refresh'
 export default {
   name: 'Search',
+  components:{
+    loadmore,
+  },
   data () {
     return {
       SearchText: '',
       groupList: [],
       postList: [],
+      i: 0
     }
   },
   computed: {
@@ -116,6 +126,35 @@ export default {
         console.log(error)
         this.$Message.error('出现错误'+error)
       })
+    }
+  },
+  methods: {
+    onPullup: function (done) {
+      let self = this
+      self.i += 1
+      if (store.state.searchContent != '') {
+        setTimeout(function () {
+          searchPost({
+        limit: 20,
+        offset: 20 * self.i,
+        name: this.getsearch
+      }).then(response => {
+        if (response.data !== undefined) {
+          response.data.forEach(function (el) {
+            el.create_time = el.create_time.slice(0, 10) + ' ' + el.create_time.slice(11, 16)
+          })
+          console.log(response.data)
+          self.postList = self.postList.concat(response.data)
+        }
+      }).catch(error => {
+        console.log(error)
+        this.$Message.error('出现错误'+error)
+      })
+          done()
+        }, 1500)
+        
+      }
+      console.log('length: ' + this.postList.length)
     }
   }
 }
@@ -256,5 +295,10 @@ export default {
       }
     }
   }
+}
+.page{
+  height: calc(100vh - 64px);
+      position: relative;
+      user-select: none;
 }
 </style>
