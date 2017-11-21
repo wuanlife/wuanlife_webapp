@@ -28,7 +28,7 @@ export default {
       PostpostThings: false,
       postTitle: '',
       postContent: '',
-      imgUrls: 'http://7xlx4u.com1.z0.glb.clouddn.com/',
+      imgUrls: process.env.QINIU_DOMAIN_URL,
       configs: {
         spellChecker: false,
         placeholder: '在这里写下你的故事',
@@ -153,8 +153,8 @@ export default {
     imgsAdd (urlkey) {
       var self = this
       if (urlkey !== '') {
-          urlkey = "http://7xlx4u.com1.z0.glb.clouddn.com/" + urlkey;
-          if (urlkey !== 'http://7xlx4u.com1.z0.glb.clouddn.com/') {
+          urlkey = process.env.QINIU_DOMAIN_URL + urlkey;
+          if (urlkey !== process.env.QINIU_DOMAIN_URL) {
             if (urlkey !== this.imgUrls) {
               self.postContent = self.postContent + "<img style='max-width: 100%;' src='" + urlkey + "' />"
               self.imgUrls = urlkey

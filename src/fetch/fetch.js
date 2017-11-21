@@ -3,7 +3,7 @@ import qs from 'qs'
 import util from '../util'
 
 const service = axios.create({
-  baseURL: 'http://47.88.58.119:800/',
+  baseURL: process.env.BASE_API,
   timeout: 5000
 });
 

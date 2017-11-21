@@ -78,7 +78,7 @@ import { getQiniuToken } from '../fetch/qiniu'
         //一个任务上传成功后回调
         console.log(task.result.key);//文件的key
         urlkey=task.result.key;
-        document.getElementById("ImgUrl").src = "http://7xlx4u.com1.z0.glb.clouddn.com/"+urlkey;
+        document.getElementById("ImgUrl").src = process.env.QINIU_DOMAIN_URL+urlkey;
       },
     }).build();
 
@@ -89,7 +89,7 @@ export default {
       creatPlanetForm: {
         selected: '',
         planetName: '',
-        img_url: 'http://7xlx4u.com1.z0.glb.clouddn.com/'+urlkey,
+        img_url: process.env.QINIU_DOMAIN_URL+urlkey,
         planetIntroduction: '',
       },
       creatPlanetNameTitle: false,
@@ -128,7 +128,7 @@ export default {
     },
     createPlanet () {
       var self = this
-      this.creatPlanetForm.img_url = 'http://7xlx4u.com1.z0.glb.clouddn.com/'+urlkey
+      this.creatPlanetForm.img_url = process.env.QINIU_DOMAIN_URL+urlkey
       this.creatPlanetForm.selected = this.isSelect
       createGroup(this.creatPlanetForm).then(response => {
         console.log("星球创建成功： id = "+ response.id)
