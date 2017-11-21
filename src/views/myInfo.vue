@@ -110,7 +110,7 @@ import { getQiniuToken } from '../fetch/qiniu'
         console.log(task.result.key);//文件的key
         urlkey=task.result.key;
         issuccess = true;
-        document.getElementsByTagName("img")[0].src = "http://7xlx4u.com1.z0.glb.clouddn.com/"+urlkey;
+        document.getElementsByTagName("img")[0].src = process.env.QINIU_DOMAIN_URL+urlkey;
       },onTaskFail(task) {
         //一个任务在经历重传后依然失败后回调此函数
         
@@ -222,7 +222,7 @@ export default {
     saveInfo () {
       let id = JSON.parse(localStorage.getItem("user")).id || store.state.userInfo.id
       if (issuccess) {
-        this.saveInfos.avatar_url = "http://7xlx4u.com1.z0.glb.clouddn.com/"+urlkey
+        this.saveInfos.avatar_url = process.env.QINIU_DOMAIN_URL+urlkey
       }
       console.log(this.saveInfos)
       changeUserInfo(id, this.saveInfos).then(response => {

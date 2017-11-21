@@ -16,7 +16,7 @@ const DefaultHeader = resolve => require.ensure([], () => resolve(require('../co
 const SimpleHeader = resolve => require.ensure([], () => resolve(require('../components/SimpleHeader')), 'SimpleHeader');
 const SearchHeader = resolve => require.ensure([], () => resolve(require('../components/SearchHeader')), 'SearchHeader');
 const NullHeader = resolve => require.ensure([], () => resolve(require('../components/NullHeader')), 'NullHeader');
-const CreatepostHeader = resolve => require.ensure([], () => resolve(require('../components/CreatepostHeader')), 'CreatepostHeader');
+const CreatepostHeader = resolve => require.ensure([], () => resolve(require('../components/createpostHeader')), 'CreatepostHeader');
 
 // Main route
 //import Myplanet from '@/views/Myplanet'
